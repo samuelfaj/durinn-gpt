@@ -39,25 +39,32 @@ const Api_1 = __importDefault(require("./Api"));
 const fs = __importStar(require("fs"));
 const DurinnGPT_1 = __importDefault(require("./DurinnGPT"));
 class PromptForCode {
+    static getCodeOrFile(codeOrFile) {
+        const self = this;
+        const path = require('path');
+        let code = codeOrFile;
+        if (fs.existsSync(codeOrFile) || fs.existsSync(path.resolve(process.env.PWD, codeOrFile))) {
+            const dir = fs.existsSync(codeOrFile)
+                ? codeOrFile
+                : path.resolve(process.env.PWD, codeOrFile);
+            code = fs.readFileSync(dir).toString();
+        }
+        return code;
+    }
     static run(codeOrFile, saveToFile) {
         return __awaiter(this, void 0, void 0, function* () {
             const self = this;
             const path = require('path');
-            let code = codeOrFile;
-            if (fs.existsSync(codeOrFile) || fs.existsSync(path.resolve(process.env.PWD, codeOrFile))) {
-                const dir = fs.existsSync(codeOrFile)
-                    ? codeOrFile
-                    : path.resolve(process.env.PWD, codeOrFile);
-                code = fs.readFileSync(dir).toString();
-            }
+            let code = PromptForCode.getCodeOrFile(codeOrFile);
+            let saveToFileCode = saveToFile ? PromptForCode.getCodeOrFile(saveToFile) : '';
             if (!code) {
                 console.log(`${self.name}: ${self.description}`);
                 console.log(`Usage: npm run durinn-gpt -- ${DurinnGPT_1.default.pascalToKebabCase(self.name)} <CODE> <FILE-TO-SAVE>`);
                 return;
             }
             const api = yield Api_1.default.send([
-                { role: 'system', content: this.prompt },
-                { role: 'user', content: `${this.ask}\n\`\`\`\n${code}\`\`\`` }
+                { role: 'system', content: this.prompt.replace('{{CODE-OR-FILE}}', codeOrFile).replace('{{SAVE-TO-FILE}}', saveToFileCode) },
+                { role: 'user', content: `${this.ask}\n\`\`\`\n${code}\`\`\``.replace('{{CODE-OR-FILE}}', codeOrFile).replace('{{SAVE-TO-FILE}}', saveToFileCode) }
             ]);
             if (!api.code[0]) {
                 return console.error(`Nenhum código retornado`, api);

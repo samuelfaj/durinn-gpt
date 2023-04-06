@@ -9,8 +9,8 @@ export default class PromptForCode {
 	
 	// Describe this what this class does
 	protected static description = 'Descrição não fornecida';
-	
-	static async run(codeOrFile: string, saveToFile ?: string){
+
+	static getCodeOrFile(codeOrFile: string){
 		const self = this;
 		const path = require('path');
 
@@ -22,7 +22,17 @@ export default class PromptForCode {
 				: path.resolve(process.env.PWD, codeOrFile);
 			code = fs.readFileSync(dir).toString();
 		}
-		
+
+		return code;
+	}
+	
+	static async run(codeOrFile: string, saveToFile ?: string){
+		const self = this;
+		const path = require('path');
+
+		let code = PromptForCode.getCodeOrFile(codeOrFile);
+		let saveToFileCode = saveToFile ? PromptForCode.getCodeOrFile(saveToFile) : '';
+
 		if(!code){
 			console.log(`${self.name}: ${self.description}`);
 			console.log(`Usage: npm run durinn-gpt -- ${DurinnGPT.pascalToKebabCase(self.name)} <CODE> <FILE-TO-SAVE>`);
@@ -30,8 +40,8 @@ export default class PromptForCode {
 		}
 		
 		const api = await Api.send([
-			{role: 'system', content: this.prompt},
-			{role: 'user', content: `${this.ask}\n\`\`\`\n${code}\`\`\``}
+			{role: 'system', content: this.prompt.replace('{{CODE-OR-FILE}}', codeOrFile).replace('{{SAVE-TO-FILE}}', saveToFileCode)},
+			{role: 'user', content: `${this.ask}\n\`\`\`\n${code}\`\`\``.replace('{{CODE-OR-FILE}}', codeOrFile).replace('{{SAVE-TO-FILE}}', saveToFileCode)}
 		]);
 		
 		if(!api.code[0]){
