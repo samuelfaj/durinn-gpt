@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Response = void 0;
 class Api {
     static send(messages) {
         return __awaiter(this, void 0, void 0, function* () {

@@ -9,7 +9,6 @@ const Default_Model_1 = __importDefault(require("../defaults/Default.Model"));
 const Default_Migration_1 = __importDefault(require("../defaults/Default.Migration"));
 class GenerateModelFromMigration extends PromptForCode_1.default {
 }
-exports.default = GenerateModelFromMigration;
 GenerateModelFromMigration.prompt = `
 Vou fornecer alguns exemplos para que você grave o contexto:
 
@@ -30,5 +29,6 @@ E essa é a migration que gerou esse model:
 \`\`\`
 ${Default_Migration_1.default}
 \`\`\``;
-GenerateModelFromMigration.ask = `Com base no modelo acima, gere um model à partir desta migration:`;
+GenerateModelFromMigration.ask = `Com base no modelo acima, gere um model à partir desta migration, você deve responder em markdown apenas o novo código e entre (\`\`\`). Sem explicações. Apenas o novo código:`;
 GenerateModelFromMigration.description = `Gera um model a partir do código de uma migration que passamos.`;
+exports.default = GenerateModelFromMigration;

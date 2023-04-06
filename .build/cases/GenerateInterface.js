@@ -9,7 +9,6 @@ const Default_Model_1 = __importDefault(require("../defaults/Default.Model"));
 const Default_Interface_1 = __importDefault(require("../defaults/Default.Interface"));
 class GenerateInterface extends PromptForCode_1.default {
 }
-exports.default = GenerateInterface;
 GenerateInterface.prompt = `
 Vou fornecer alguns exemplos para que você grave o contexto:
 
@@ -30,5 +29,6 @@ E essa é a interface desse model:
 \`\`\`
 ${Default_Interface_1.default}
 \`\`\``;
-GenerateInterface.ask = `Com base no exemplo acima, gera apenas a interface do seguinte model:`;
-GenerateInterface.description = `Gera uma interface a partir do código que passamos.`;
+GenerateInterface.ask = `Com base no exemplo acima, gere apenas a interface do seguinte model. Você deve responder em markdown apenas o novo código e entre (\`\`\`). Sem explicações. Apenas o novo código:`;
+GenerateInterface.description = `Ger uma interface a partir do código que passamos.`;
+exports.default = GenerateInterface;

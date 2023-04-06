@@ -27,4 +27,13 @@ ${DefaultMigration}
 	
 	static ask = `Com base no modelo acima, gere uma sequelize ORM migration à partir deste model. Você deve responder em markdown apenas o novo código e entre (\`\`\`). Sem explicações. Apenas o novo código::`;
 	static description = `Gera uma migration a partir do código de um model que passamos.`;
+
+	static async run(codeOrFile: string, saveToFile ?: string){
+		if(saveToFile){
+			const moment = require("moment");
+			saveToFile = `${moment().format(`YYYYMMDDHHmmss`)}-${saveToFile}`
+		}
+
+		super.run(codeOrFile, saveToFile);
+	}
 }

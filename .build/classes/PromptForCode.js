@@ -1,4 +1,27 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -11,13 +34,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
-    return result;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const Api_1 = __importDefault(require("./Api"));
 const fs = __importStar(require("fs"));
@@ -26,9 +42,14 @@ class PromptForCode {
     static run(codeOrFile, saveToFile) {
         return __awaiter(this, void 0, void 0, function* () {
             const self = this;
-            let code = fs.existsSync(codeOrFile)
-                ? fs.readFileSync(codeOrFile).toString()
-                : codeOrFile;
+            const path = require('path');
+            let code = codeOrFile;
+            if (fs.existsSync(codeOrFile) || fs.existsSync(path.resolve(process.env.PWD, codeOrFile))) {
+                const dir = fs.existsSync(codeOrFile)
+                    ? codeOrFile
+                    : path.resolve(process.env.PWD, codeOrFile);
+                code = fs.readFileSync(dir).toString();
+            }
             if (!code) {
                 console.log(`${self.name}: ${self.description}`);
                 console.log(`Usage: npm run durinn-gpt -- ${DurinnGPT_1.default.pascalToKebabCase(self.name)} <CODE> <FILE-TO-SAVE>`);
@@ -42,16 +63,21 @@ class PromptForCode {
                 return console.error(`Nenhum código retornado`, api);
             }
             if (saveToFile) {
+                if (saveToFile.substr(0, 1) != '/') {
+                    saveToFile = path.resolve(process.env.PWD, saveToFile);
+                }
                 fs.writeFileSync(saveToFile, api.code[0]);
+                console.log('✅ Arquivo salvo em:', saveToFile);
+                return api;
             }
             DurinnGPT_1.default.copyToClipboard(api.code[0]);
-            console.log('Código copiado para a área de transferência');
+            console.log('✅ Código copiado para a área de transferência');
             return api;
         });
     }
 }
-exports.default = PromptForCode;
 PromptForCode.prompt = '';
 PromptForCode.ask = '';
 // Describe this what this class does
 PromptForCode.description = 'Descrição não fornecida';
+exports.default = PromptForCode;
