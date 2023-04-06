@@ -1,0 +1,27 @@
+{
+  "name": "durinn-gpt",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "npx tsc -p .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "durinn-gpt": "./.build/durinn-gpt.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/desenvolvimento-ninja/durinn/durinn-gpt.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/desenvolvimento-ninja/durinn/durinn-gpt/issues"
+  },
+  "homepage": "https://gitlab.com/desenvolvimento-ninja/durinn/durinn-gpt#readme",
+  "devDependencies": {
+    "typescript": "^5.0.3"
+  }
+}
