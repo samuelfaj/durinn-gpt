@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const PromptForCode_1 = __importDefault(require("@durinnGPT/classes/PromptForCode"));
+const PromptForCode_1 = __importDefault(require("../classes/PromptForCode"));
 class OptimizeCode extends PromptForCode_1.default {
 }
 exports.default = OptimizeCode;

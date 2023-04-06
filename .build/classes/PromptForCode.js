@@ -19,9 +19,9 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const Api_1 = __importDefault(require("@durinnGPT/classes/Api"));
+const Api_1 = __importDefault(require("./Api"));
 const fs = __importStar(require("fs"));
-const DurinnGPT_1 = __importDefault(require("@durinnGPT/classes/DurinnGPT"));
+const DurinnGPT_1 = __importDefault(require("./DurinnGPT"));
 class PromptForCode {
     static run(code, saveToFile) {
         return __awaiter(this, void 0, void 0, function* () {

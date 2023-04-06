@@ -1,7 +1,7 @@
-import PromptForCode from "@durinnGPT/classes/PromptForCode";
-import DefaultBaseModel from "@durinnGPT/defaults/Default.BaseModel";
-import DefaultModel from "@durinnGPT/defaults/Default.Model";
-import DefaultInterface from "@durinnGPT/defaults/Default.Interface";
+import PromptForCode from "../classes/PromptForCode";
+import DefaultBaseModel from "../defaults/Default.BaseModel";
+import DefaultModel from "../defaults/Default.Model";
+import DefaultInterface from "../defaults/Default.Interface";
 
 export default class GenerateInterface extends PromptForCode {
 	static prompt = `

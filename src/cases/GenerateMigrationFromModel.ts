@@ -1,7 +1,7 @@
-import PromptForCode from "@durinnGPT/classes/PromptForCode";
-import DefaultBaseModel from "@durinnGPT/defaults/Default.BaseModel";
-import DefaultModel from "@durinnGPT/defaults/Default.Model";
-import DefaultMigration from "@durinnGPT/defaults/Default.Migration";
+import PromptForCode from "../classes/PromptForCode";
+import DefaultBaseModel from "../defaults/Default.BaseModel";
+import DefaultModel from "../defaults/Default.Model";
+import DefaultMigration from "../defaults/Default.Migration";
 
 export default class GenerateMigrationFromModel extends PromptForCode {
 	static prompt = `

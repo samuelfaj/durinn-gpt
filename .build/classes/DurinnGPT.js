@@ -3,11 +3,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const GenerateInterface_1 = __importDefault(require("@durinnGPT/cases/GenerateInterface"));
-const GenerateMigration_1 = __importDefault(require("@durinnGPT/cases/GenerateMigration"));
-const GenerateMigrationFromModel_1 = __importDefault(require("@durinnGPT/cases/GenerateMigrationFromModel"));
-const GenerateModelFromMigration_1 = __importDefault(require("@durinnGPT/cases/GenerateModelFromMigration"));
-const OptimizeCode_1 = __importDefault(require("@durinnGPT/cases/OptimizeCode"));
+const GenerateInterface_1 = __importDefault(require("../cases/GenerateInterface"));
+const GenerateMigration_1 = __importDefault(require("../cases/GenerateMigration"));
+const GenerateMigrationFromModel_1 = __importDefault(require("../cases/GenerateMigrationFromModel"));
+const GenerateModelFromMigration_1 = __importDefault(require("../cases/GenerateModelFromMigration"));
+const OptimizeCode_1 = __importDefault(require("../cases/OptimizeCode"));
 class DurinnGPT {
     /**
      * Get the command line arguments and return an object with these arguments.

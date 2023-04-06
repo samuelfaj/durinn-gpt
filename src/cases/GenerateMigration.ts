@@ -1,4 +1,4 @@
-import PromptForCode from "@durinnGPT/classes/PromptForCode";
+import PromptForCode from "../classes/PromptForCode";
 
 export default class GenerateMigration extends PromptForCode {
 	static prompt = `Sua missão é criar uma migration usando a biblioteca Sequelize ORM. Essa migration deve usar transaction e você deve responder apenas o código. Sem explicações.`;

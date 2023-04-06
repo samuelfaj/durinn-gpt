@@ -1,8 +1,8 @@
-import GenerateInterface from "@durinnGPT/cases/GenerateInterface";
-import GenerateMigration from "@durinnGPT/cases/GenerateMigration";
-import GenerateMigrationFromModel from "@durinnGPT/cases/GenerateMigrationFromModel";
-import GenerateModelFromMigration from "@durinnGPT/cases/GenerateModelFromMigration";
-import OptimizeCode from "@durinnGPT/cases/OptimizeCode";
+import GenerateInterface from "../cases/GenerateInterface";
+import GenerateMigration from "../cases/GenerateMigration";
+import GenerateMigrationFromModel from "../cases/GenerateMigrationFromModel";
+import GenerateModelFromMigration from "../cases/GenerateModelFromMigration";
+import OptimizeCode from "../cases/OptimizeCode";
 
 export default class DurinnGPT {
 	/**

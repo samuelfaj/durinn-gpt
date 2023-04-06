@@ -1,6 +1,6 @@
-import Api from "@durinnGPT/classes/Api";
+import Api from "./Api";
 import * as fs from "fs";
-import DurinnGPT from "@durinnGPT/classes/DurinnGPT";
+import DurinnGPT from "./DurinnGPT";
 
 
 export default class PromptForCode {
