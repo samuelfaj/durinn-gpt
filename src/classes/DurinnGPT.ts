@@ -3,6 +3,8 @@ import GenerateMigration from "../cases/GenerateMigration";
 import GenerateMigrationFromModel from "../cases/GenerateMigrationFromModel";
 import GenerateModelFromMigration from "../cases/GenerateModelFromMigration";
 import OptimizeCode from "../cases/OptimizeCode";
+import UpdateModelFromMigration from "src/cases/UpdateModelFromMigration";
+import UpdateInterfaceFromModel from "src/cases/UpdateInterfaceFromModel";
 
 export default class DurinnGPT {
 	/**
@@ -95,7 +97,9 @@ export default class DurinnGPT {
 			GenerateMigration,
 			GenerateMigrationFromModel,
 			GenerateModelFromMigration,
-			OptimizeCode
+			OptimizeCode,
+			UpdateModelFromMigration,
+			UpdateInterfaceFromModel
 		};
 	}
 	
