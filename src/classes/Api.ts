@@ -26,7 +26,7 @@ export class Response {
 	constructor(public text: string) {
 		const self = this;
 		
-		(text.match(/```([^`]*)```/gmi) || []).forEach((text) => {
+		(text.match(/```(.*)```/gis) || []).forEach((text) => {
 			self.code.push(text.substr(3, text.length - 6));
 		});
 	}
