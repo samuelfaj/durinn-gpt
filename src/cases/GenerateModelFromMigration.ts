@@ -25,6 +25,6 @@ E essa é a migration que gerou esse model:
 ${DefaultMigration}
 \`\`\``;
 	
-	static ask = `Com base no modelo acima, gere um model à partir desta migration:`;
+	static ask = `Com base no modelo acima, gere um model à partir desta migration, você deve responder em markdown apenas o novo código e entre (\`\`\`). Sem explicações. Apenas o novo código:`;
 	static description = `Gera um model a partir do código de uma migration que passamos.`;
 }

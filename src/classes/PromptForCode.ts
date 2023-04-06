@@ -12,10 +12,16 @@ export default class PromptForCode {
 	
 	static async run(codeOrFile: string, saveToFile ?: string){
 		const self = this;
+		const path = require('path');
 
-		let code = fs.existsSync(codeOrFile) 
-			? fs.readFileSync(codeOrFile).toString() 
-			: codeOrFile;
+		let code = codeOrFile;
+
+		if(fs.existsSync(codeOrFile) || fs.existsSync(path.resolve(process.env.PWD, codeOrFile))){
+			const dir = fs.existsSync(codeOrFile) 
+				? codeOrFile 
+				: path.resolve(process.env.PWD, codeOrFile);
+			code = fs.readFileSync(dir).toString();
+		}
 		
 		if(!code){
 			console.log(`${self.name}: ${self.description}`);
@@ -33,11 +39,18 @@ export default class PromptForCode {
 		}
 		
 		if(saveToFile){
-			fs.writeFileSync(saveToFile, api.code[0]);
+			if(saveToFile.substr(0,1) != '/'){
+				saveToFile = path.resolve(process.env.PWD, saveToFile);
+			}
+
+			fs.writeFileSync(saveToFile as string, api.code[0]);
+			console.log('✅ Arquivo salvo em:', saveToFile);
+
+			return api;
 		}
 		
 		DurinnGPT.copyToClipboard(api.code[0]);
-		console.log('Código copiado para a área de transferência');
+		console.log('✅ Código copiado para a área de transferência');
 		
 		return api;
 	}

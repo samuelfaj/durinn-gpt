@@ -25,6 +25,6 @@ E essa é a migration que gerou esse model:
 ${DefaultMigration}
 \`\`\``;
 	
-	static ask = `Com base no modelo acima, gere uma sequelize ORM migration à partir deste model:`;
+	static ask = `Com base no modelo acima, gere uma sequelize ORM migration à partir deste model. Você deve responder em markdown apenas o novo código e entre (\`\`\`). Sem explicações. Apenas o novo código::`;
 	static description = `Gera uma migration a partir do código de um model que passamos.`;
 }

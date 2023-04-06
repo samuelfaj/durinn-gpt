@@ -25,6 +25,6 @@ E essa é a interface desse model:
 ${DefaultInterface}
 \`\`\``;
 	
-	static ask = `Com base no exemplo acima, gera apenas a interface do seguinte model:`;
-	static description = `Gera uma interface a partir do código que passamos.`;
+	static ask = `Com base no exemplo acima, gere apenas a interface do seguinte model. Você deve responder em markdown apenas o novo código e entre (\`\`\`). Sem explicações. Apenas o novo código:`;
+	static description = `Ger uma interface a partir do código que passamos.`;
 }
