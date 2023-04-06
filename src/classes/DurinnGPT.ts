@@ -3,8 +3,8 @@ import GenerateMigration from "../cases/GenerateMigration";
 import GenerateMigrationFromModel from "../cases/GenerateMigrationFromModel";
 import GenerateModelFromMigration from "../cases/GenerateModelFromMigration";
 import OptimizeCode from "../cases/OptimizeCode";
-import UpdateModelFromMigration from "src/cases/UpdateModelFromMigration";
-import UpdateInterfaceFromModel from "src/cases/UpdateInterfaceFromModel";
+import UpdateModelFromMigration from "../cases/UpdateModelFromMigration";
+import UpdateInterfaceFromModel from "../cases/UpdateInterfaceFromModel";
 
 export default class DurinnGPT {
 	/**
