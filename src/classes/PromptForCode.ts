@@ -1,5 +1,6 @@
 import Api from "./Api";
 import * as fs from "fs";
+import colors from "colors";
 import DurinnGPT from "./DurinnGPT";
 
 
@@ -26,7 +27,7 @@ export default class PromptForCode {
 		return code;
 	}
 	
-	static async run(codeOrFile: string, saveToFile ?: string){
+	static async run(codeOrFile: string, saveToFile ?: string, verbose = false){
 		const self = this;
 		const path = require('path');
 
@@ -38,14 +39,27 @@ export default class PromptForCode {
 			console.log(`Usage: npm run durinn-gpt -- ${DurinnGPT.pascalToKebabCase(self.name)} <CODE> <FILE-TO-SAVE>`);
 			return;
 		}
+
+		const prompt = this.prompt.replace('{{CODE-OR-FILE}}', codeOrFile).replace('{{SAVE-TO-FILE}}', saveToFileCode);
+		const ask = `${this.ask}\n\`\`\`\n${code}\`\`\``.replace('{{CODE-OR-FILE}}', codeOrFile).replace('{{SAVE-TO-FILE}}', saveToFileCode);
 		
 		const api = await Api.send([
-			{role: 'system', content: this.prompt.replace('{{CODE-OR-FILE}}', codeOrFile).replace('{{SAVE-TO-FILE}}', saveToFileCode)},
-			{role: 'user', content: `${this.ask}\n\`\`\`\n${code}\`\`\``.replace('{{CODE-OR-FILE}}', codeOrFile).replace('{{SAVE-TO-FILE}}', saveToFileCode)}
+			{role: 'system', content: prompt},
+			{role: 'user', content: ask}
 		]);
+
+		if(verbose){
+			console.log(prompt.green);
+			console.log(ask.green);
+		}
 		
 		if(!api.code[0]){
 			return console.error(`Nenhum código retornado`, api);
+		}
+
+
+		if(verbose){
+			console.log(api.code[0].red);
 		}
 		
 		if(saveToFile){
