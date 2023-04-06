@@ -64,19 +64,19 @@ class PromptForCode {
             }
             const prompt = this.prompt.replace('{{CODE-OR-FILE}}', codeOrFile).replace('{{SAVE-TO-FILE}}', saveToFileCode);
             const ask = `${this.ask}\n\`\`\`\n${code}\`\`\``.replace('{{CODE-OR-FILE}}', codeOrFile).replace('{{SAVE-TO-FILE}}', saveToFileCode);
+            if (verbose) {
+                console.log(prompt);
+                console.log(ask);
+            }
             const api = yield Api_1.default.send([
                 { role: 'system', content: prompt },
                 { role: 'user', content: ask }
             ]);
-            if (verbose) {
-                console.log(prompt.green);
-                console.log(ask.green);
-            }
             if (!api.code[0]) {
                 return console.error(`Nenhum código retornado`, api);
             }
             if (verbose) {
-                console.log(api.code[0].red);
+                console.log(api.code[0]);
             }
             if (saveToFile) {
                 if (saveToFile.substr(0, 1) != '/') {
