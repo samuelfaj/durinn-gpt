@@ -8,6 +8,8 @@ const GenerateMigration_1 = __importDefault(require("../cases/GenerateMigration"
 const GenerateMigrationFromModel_1 = __importDefault(require("../cases/GenerateMigrationFromModel"));
 const GenerateModelFromMigration_1 = __importDefault(require("../cases/GenerateModelFromMigration"));
 const OptimizeCode_1 = __importDefault(require("../cases/OptimizeCode"));
+const UpdateModelFromMigration_1 = __importDefault(require("src/cases/UpdateModelFromMigration"));
+const UpdateInterfaceFromModel_1 = __importDefault(require("src/cases/UpdateInterfaceFromModel"));
 class DurinnGPT {
     /**
      * Get the command line arguments and return an object with these arguments.
@@ -87,7 +89,9 @@ class DurinnGPT {
             GenerateMigration: GenerateMigration_1.default,
             GenerateMigrationFromModel: GenerateMigrationFromModel_1.default,
             GenerateModelFromMigration: GenerateModelFromMigration_1.default,
-            OptimizeCode: OptimizeCode_1.default
+            OptimizeCode: OptimizeCode_1.default,
+            UpdateModelFromMigration: UpdateModelFromMigration_1.default,
+            UpdateInterfaceFromModel: UpdateInterfaceFromModel_1.default
         };
     }
     static printUsage() {
