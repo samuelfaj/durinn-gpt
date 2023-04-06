@@ -10,8 +10,12 @@ export default class PromptForCode {
 	// Describe this what this class does
 	protected static description = 'Descrição não fornecida';
 	
-	static async run(code: string, saveToFile ?: string){
+	static async run(codeOrFile: string, saveToFile ?: string){
 		const self = this;
+
+		let code = fs.existsSync(codeOrFile) 
+			? fs.readFileSync(codeOrFile).toString() 
+			: codeOrFile;
 		
 		if(!code){
 			console.log(`${self.name}: ${self.description}`);

@@ -23,9 +23,12 @@ const Api_1 = __importDefault(require("./Api"));
 const fs = __importStar(require("fs"));
 const DurinnGPT_1 = __importDefault(require("./DurinnGPT"));
 class PromptForCode {
-    static run(code, saveToFile) {
+    static run(codeOrFile, saveToFile) {
         return __awaiter(this, void 0, void 0, function* () {
             const self = this;
+            let code = fs.existsSync(codeOrFile)
+                ? fs.readFileSync(codeOrFile).toString()
+                : codeOrFile;
             if (!code) {
                 console.log(`${self.name}: ${self.description}`);
                 console.log(`Usage: npm run durinn-gpt -- ${DurinnGPT_1.default.pascalToKebabCase(self.name)} <CODE> <FILE-TO-SAVE>`);
