@@ -56,10 +56,10 @@ Esse é o model do nosso sistema:
         const interfaceDir = modelDir.replace('/' + modelName, '/../interfaces/models/' + modelName.replace('.ts', '.interface.ts'));
 
         if(fs.existsSync(interfaceDir)){
-            console.log('fs.readFileSync(interfaceDir).toString()', fs.readFileSync(interfaceDir).toString());
+            console.log('fs.readFileSync(interfaceDir).toString()', fs.readFileSync(modelDir).toString());
 
             const api = await UpdateInterfaceFromModel.send(
-                fs.readFileSync(interfaceDir).toString(), 
+                fs.readFileSync(modelDir).toString(), 
                 interfaceDir, 
                 true
             );
