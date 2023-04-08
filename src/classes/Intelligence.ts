@@ -1,7 +1,7 @@
 import DefaultBaseModel from "../defaults/Default.BaseModel";
 import DefaultModel from "../defaults/Default.Model";
 import DefaultInterface from "../defaults/Default.Interface";
-import DefaultMigration from "src/defaults/Default.Migration";
+import DefaultMigration from "../defaults/Default.Migration";
 
 import {Messages} from "./Api";
 

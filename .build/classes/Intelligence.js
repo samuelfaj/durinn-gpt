@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Default_BaseModel_1 = __importDefault(require("../defaults/Default.BaseModel"));
 const Default_Model_1 = __importDefault(require("../defaults/Default.Model"));
 const Default_Interface_1 = __importDefault(require("../defaults/Default.Interface"));
-const Default_Migration_1 = __importDefault(require("src/defaults/Default.Migration"));
+const Default_Migration_1 = __importDefault(require("../defaults/Default.Migration"));
 const fs = require('fs');
 const path = require('path');
 class Intelligence {
