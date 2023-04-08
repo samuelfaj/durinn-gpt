@@ -15,10 +15,8 @@ class Api {
         this.context = [];
     }
     addContext(context) {
-        return __awaiter(this, void 0, void 0, function* () {
-            this.context = this.context.concat(context);
-            return this;
-        });
+        this.context = this.context.concat(context);
+        return this;
     }
     send(messages) {
         return __awaiter(this, void 0, void 0, function* () {

@@ -15,38 +15,38 @@ export default class GenerateMigration extends PromptForCode {
 
 		let file = path.resolve(process.cwd() as string);
 
-		if(codeOrFile.substr(0,1) != '/'){
-			console.log(
-				'path.resolve(process.cwd() as string, codeOrFile)', 
-				path.resolve(process.cwd() as string, codeOrFile)
-			);
+		// if(codeOrFile.substr(0,1) != '/'){
+		// 	console.log(
+		// 		'path.resolve(process.cwd() as string, codeOrFile)',
+		// 		path.resolve(process.cwd() as string, codeOrFile)
+		// 	);
+		//
+		// 	codeOrFile = path.resolve(process.cwd() as string, codeOrFile);
+		// }
+		//
+		// if(fs.existsSync(codeOrFile)){
+		// 	file = codeOrFile;
+		// }
+		//
+		// if(saveToFile){
+		// 	if(saveToFile.substr(0,1) != '/'){
+		// 		console.log(
+		// 			'path.resolve(process.cwd() as string, saveToFile)',
+		// 			path.resolve(process.cwd() as string, saveToFile)
+		// 		);
+		//
+		// 		saveToFile = path.resolve(process.cwd() as string, saveToFile);
+		// 	}
+		//
+		// 	if(fs.existsSync(saveToFile)){
+		// 		file = saveToFile;
+		// 	}
+		// }
 
-			codeOrFile = path.resolve(process.cwd() as string, codeOrFile);
-		}
-
-		if(fs.existsSync(codeOrFile)){
-			file = codeOrFile;
-		}
-
-		if(saveToFile){
-			if(saveToFile.substr(0,1) != '/'){
-				console.log(
-					'path.resolve(process.cwd() as string, saveToFile)', 
-					path.resolve(process.cwd() as string, saveToFile)
-				);
-
-				saveToFile = path.resolve(process.cwd() as string, saveToFile);
-			}
-
-			if(fs.existsSync(saveToFile)){
-				file = saveToFile;
-			}
-		}
-
-		if(!file){
-			console.log(`Nenhum arquivo encontrado para disparar beforeSendCall`);
-			return;
-		}
+		// if(!file){
+		// 	console.log(`Nenhum arquivo encontrado para disparar beforeSendCall`);
+		// 	return;
+		// }
 
 		api.addContext(await Intelligence.getTsConfig(file))
 		api.addContext(await Intelligence.getListOfFiles(file))

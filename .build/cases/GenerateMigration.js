@@ -36,7 +36,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const PromptForCode_1 = __importDefault(require("../classes/PromptForCode"));
-const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
 const Intelligence_1 = __importDefault(require("../classes/Intelligence"));
 class GenerateMigration extends PromptForCode_1.default {
@@ -44,26 +43,37 @@ class GenerateMigration extends PromptForCode_1.default {
         return __awaiter(this, void 0, void 0, function* () {
             console.log(`Disparando beforeSendCall...`);
             let file = path.resolve(process.cwd());
-            if (codeOrFile.substr(0, 1) != '/') {
-                console.log('path.resolve(process.cwd() as string, codeOrFile)', path.resolve(process.cwd(), codeOrFile));
-                codeOrFile = path.resolve(process.cwd(), codeOrFile);
-            }
-            if (fs.existsSync(codeOrFile)) {
-                file = codeOrFile;
-            }
-            if (saveToFile) {
-                if (saveToFile.substr(0, 1) != '/') {
-                    console.log('path.resolve(process.cwd() as string, saveToFile)', path.resolve(process.cwd(), saveToFile));
-                    saveToFile = path.resolve(process.cwd(), saveToFile);
-                }
-                if (fs.existsSync(saveToFile)) {
-                    file = saveToFile;
-                }
-            }
-            if (!file) {
-                console.log(`Nenhum arquivo encontrado para disparar beforeSendCall`);
-                return;
-            }
+            // if(codeOrFile.substr(0,1) != '/'){
+            // 	console.log(
+            // 		'path.resolve(process.cwd() as string, codeOrFile)',
+            // 		path.resolve(process.cwd() as string, codeOrFile)
+            // 	);
+            //
+            // 	codeOrFile = path.resolve(process.cwd() as string, codeOrFile);
+            // }
+            //
+            // if(fs.existsSync(codeOrFile)){
+            // 	file = codeOrFile;
+            // }
+            //
+            // if(saveToFile){
+            // 	if(saveToFile.substr(0,1) != '/'){
+            // 		console.log(
+            // 			'path.resolve(process.cwd() as string, saveToFile)',
+            // 			path.resolve(process.cwd() as string, saveToFile)
+            // 		);
+            //
+            // 		saveToFile = path.resolve(process.cwd() as string, saveToFile);
+            // 	}
+            //
+            // 	if(fs.existsSync(saveToFile)){
+            // 		file = saveToFile;
+            // 	}
+            // }
+            // if(!file){
+            // 	console.log(`Nenhum arquivo encontrado para disparar beforeSendCall`);
+            // 	return;
+            // }
             api.addContext(yield Intelligence_1.default.getTsConfig(file));
             api.addContext(yield Intelligence_1.default.getListOfFiles(file));
         });

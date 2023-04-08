@@ -3,7 +3,7 @@ export type Messages = {role: 'system' | 'user', content: string}[];
 export default class Api {
 	context: Messages = [];
 
-	async addContext(context: Messages){
+	addContext(context: Messages){
 		this.context = this.context.concat(context);
 		return this;
 	}
