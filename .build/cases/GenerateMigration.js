@@ -19,9 +19,13 @@ class GenerateMigration extends PromptForCode_1.default {
             run: { get: () => super.run }
         });
         return __awaiter(this, void 0, void 0, function* () {
-            if (saveToFile) {
+            if (saveToFile && saveToFile.substr(0, 1) != '/') {
+                const arr = saveToFile.split('/');
+                let filename = arr.pop();
                 const moment = require("moment");
-                saveToFile = `${moment().format(`YYYYMMDDHHmmss`)}-${saveToFile}`;
+                filename = `${moment().format(`YYYYMMDDHHmmss`)}-${filename}`;
+                arr.push(filename);
+                saveToFile = arr.join('/');
             }
             _super.run.call(this, codeOrFile, saveToFile);
         });

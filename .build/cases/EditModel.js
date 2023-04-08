@@ -39,6 +39,7 @@ const fs = __importStar(require("fs"));
 const UpdateInterfaceFromModel_1 = __importDefault(require("./UpdateInterfaceFromModel"));
 const PromptForCode_1 = __importDefault(require("../classes/PromptForCode"));
 const Default_BaseModel_1 = __importDefault(require("../defaults/Default.BaseModel"));
+const GenerateMigration_1 = __importDefault(require("./GenerateMigration"));
 const path = require('path');
 class EditModel extends PromptForCode_1.default {
     static editModel(codeOrFile, saveToFile, verbose = false) {
@@ -71,7 +72,6 @@ Esse é o model do nosso sistema:
     }
     static updateInterface(modelPath, verbose = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log('updateInterface', modelPath, verbose);
             const modelDir = fs.existsSync(modelPath)
                 ? modelPath
                 : path.resolve(process.env.PWD, modelPath);
@@ -79,7 +79,6 @@ Esse é o model do nosso sistema:
             const modelName = array.pop();
             const interfaceDir = modelDir.replace('/' + modelName, '/../interfaces/models/' + modelName.replace('.ts', '.interface.ts'));
             if (fs.existsSync(interfaceDir)) {
-                console.log('fs.readFileSync(interfaceDir).toString()', fs.readFileSync(modelDir).toString());
                 const api = yield UpdateInterfaceFromModel_1.default.send(fs.readFileSync(modelDir).toString(), interfaceDir, true);
                 if (api) {
                     fs.copyFileSync(interfaceDir, interfaceDir + '.bk');
@@ -90,14 +89,45 @@ Esse é o model do nosso sistema:
             }
         });
     }
-    static run(codeOrFile, saveToFile, verbose = false) {
+    static createMigration(toDo, modelPath, verbose = false) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const modelDir = fs.existsSync(modelPath)
+                ? modelPath
+                : path.resolve(process.env.PWD, modelPath);
+            const array = modelDir.split('/');
+            const modelName = array.pop().replace('.ts', '');
+            let i = 0;
+            let databaseFolder = null;
+            while (!databaseFolder && i < 100) {
+                const files = fs.readdirSync(array.join('/'));
+                if (files.indexOf('database') > -1) {
+                    databaseFolder = array.join('/') + '/database';
+                    break;
+                }
+                i++;
+            }
+            if (!databaseFolder || !fs.existsSync(databaseFolder)) {
+                console.error(`❌ Pasta das migrations não encontrada`, databaseFolder);
+            }
+            const moment = require("moment");
+            const migrationDir = databaseFolder + `/${moment().format(`YYYYMMDDHHmmss`)}-adjusts-to-${modelName}.js`;
+            const api = yield GenerateMigration_1.default.send(`Crie uma migration que faça o seguinte com a tabela ${modelName}: ${toDo}`, migrationDir, true);
+            if (api) {
+                fs.writeFileSync(migrationDir, api.code[0]);
+                EditModel.files.push(migrationDir);
+            }
+        });
+    }
+    static run(toDo, saveToFile, verbose = false) {
         return __awaiter(this, void 0, void 0, function* () {
             const self = this;
             EditModel.files = [];
             console.log('Editando model...');
-            yield EditModel.editModel(codeOrFile, saveToFile, verbose);
+            yield EditModel.editModel(toDo, saveToFile, verbose);
             console.log('Editando interface...');
             yield EditModel.updateInterface(saveToFile, verbose);
+            console.log('Gerando migration...');
+            yield EditModel.createMigration(toDo, saveToFile, verbose);
         });
     }
 }
