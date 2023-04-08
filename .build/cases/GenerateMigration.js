@@ -13,12 +13,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const PromptForCode_1 = __importDefault(require("../classes/PromptForCode"));
-const Intelligence_1 = __importDefault(require("../classes/Intelligence"));
 class GenerateMigration extends PromptForCode_1.default {
     static beforeSendCall(api, codeOrFile, saveToFile) {
         return __awaiter(this, void 0, void 0, function* () {
-            api.addContext(yield Intelligence_1.default.getTsConfig());
-            api.addContext(yield Intelligence_1.default.getListOfFiles());
+            // api.addContext(await Intelligence.getTsConfig())
+            // api.addContext(await Intelligence.getListOfFiles())
         });
     }
     static run(codeOrFile, saveToFile) {

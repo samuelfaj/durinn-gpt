@@ -9,8 +9,8 @@ export default class GenerateMigration extends PromptForCode {
 	static description = `Gera uma migration do Sequelize a partir das instruções que passamos, use o padrão camelCase e adicione comentários nas colunas sempre que possível. Exemplo: Crie uma migration adicionando o campo nome (string) na tabela Usuários`;
 
 	static async beforeSendCall(api: Api, codeOrFile: string, saveToFile ?: string): Promise<void> {
-		api.addContext(await Intelligence.getTsConfig())
-		api.addContext(await Intelligence.getListOfFiles())
+		// api.addContext(await Intelligence.getTsConfig())
+		// api.addContext(await Intelligence.getListOfFiles())
 	}
 
 	static async run(codeOrFile: string, saveToFile ?: string){
