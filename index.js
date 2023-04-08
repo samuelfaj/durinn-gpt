@@ -7,4 +7,4 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const DurinnGPT_1 = __importDefault(require("./.build/classes/DurinnGPT"));
 DurinnGPT_1.default.run();
 
-// console.log(process.env.PWD);
+console.log(`Actual Directory:`, process.cwd());
