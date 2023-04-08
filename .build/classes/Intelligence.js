@@ -93,7 +93,7 @@ class Intelligence {
                 files.push(...self.recursivelyListFiles(fullPath, ignoredFolders));
             }
             else {
-                files.push(fullPath);
+                files.push(fullPath.replace(process.cwd(), ''));
             }
         });
         return files;
@@ -175,7 +175,7 @@ class Intelligence {
     static getListOfFiles(filePath) {
         return __awaiter(this, void 0, void 0, function* () {
             const self = this;
-            const ignoredFolders = [".git", ".build"];
+            const ignoredFolders = [".git", ".build", ".serverless", "node_modules", ".idea"];
             const modelDir = filePath ? self.resolvePath(filePath) : process.cwd();
             const rootFolder = self.findRootFolder(modelDir);
             if (!rootFolder) {

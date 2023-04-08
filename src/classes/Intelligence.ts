@@ -66,7 +66,7 @@ export default class Intelligence {
 			if (fs.statSync(fullPath).isDirectory() && !ignoredFolders.includes(file)) {
 				files.push(...self.recursivelyListFiles(fullPath, ignoredFolders));
 			} else {
-				files.push(fullPath);
+				files.push(fullPath.replace(process.cwd(), ''));
 			}
 		});
 		
@@ -156,7 +156,7 @@ export default class Intelligence {
 	 */
 	static async getListOfFiles(filePath?: string): Promise<Messages> {
 		const self = this;
-		const ignoredFolders = [".git", ".build"];
+		const ignoredFolders = [".git", ".build", ".serverless", "node_modules", ".idea"];
 		const modelDir = filePath ? self.resolvePath(filePath) : process.cwd();
 		const rootFolder = self.findRootFolder(modelDir);
 		
