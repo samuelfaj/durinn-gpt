@@ -153,7 +153,7 @@ Esse é o model do nosso sistema:
                 process.exit(1);
             }
             for (const file of self.backups) {
-                fs.copyFileSync(file, file.replace('.bk', ''));
+                fs.rmSync(file);
             }
             return true;
         });
