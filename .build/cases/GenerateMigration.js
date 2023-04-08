@@ -42,8 +42,10 @@ const Intelligence_1 = __importDefault(require("../classes/Intelligence"));
 class GenerateMigration extends PromptForCode_1.default {
     static beforeSendCall(api, codeOrFile, saveToFile) {
         return __awaiter(this, void 0, void 0, function* () {
+            console.log(`Disparando beforeSendCall...`);
             let file = '';
             if (codeOrFile.substr(0, 1) != '/') {
+                console.log('path.resolve(process.env.PWD as string, codeOrFile)', path.resolve(process.env.PWD, codeOrFile));
                 codeOrFile = path.resolve(process.env.PWD, codeOrFile);
             }
             if (fs.existsSync(codeOrFile)) {
@@ -51,6 +53,7 @@ class GenerateMigration extends PromptForCode_1.default {
             }
             if (saveToFile) {
                 if (saveToFile.substr(0, 1) != '/') {
+                    console.log('path.resolve(process.env.PWD as string, saveToFile)', path.resolve(process.env.PWD, saveToFile));
                     saveToFile = path.resolve(process.env.PWD, saveToFile);
                 }
                 if (fs.existsSync(saveToFile)) {
@@ -58,6 +61,7 @@ class GenerateMigration extends PromptForCode_1.default {
                 }
             }
             if (!file) {
+                console.log(`Nenhum arquivo encontrado para disparar beforeSendCall`);
                 return;
             }
             api.addContext(yield Intelligence_1.default.getTsConfig(file));

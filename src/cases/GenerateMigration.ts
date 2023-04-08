@@ -11,9 +11,16 @@ export default class GenerateMigration extends PromptForCode {
 	static description = `Gera uma migration do Sequelize a partir das instruções que passamos, use o padrão camelCase e adicione comentários nas colunas sempre que possível. Exemplo: Crie uma migration adicionando o campo nome (string) na tabela Usuários`;
 
 	static async beforeSendCall(api: Api, codeOrFile: string, saveToFile ?: string): Promise<void> {
+		console.log(`Disparando beforeSendCall...`);
+
 		let file = '';
 
 		if(codeOrFile.substr(0,1) != '/'){
+			console.log(
+				'path.resolve(process.env.PWD as string, codeOrFile)', 
+				path.resolve(process.env.PWD as string, codeOrFile)
+			);
+
 			codeOrFile = path.resolve(process.env.PWD as string, codeOrFile);
 		}
 
@@ -23,6 +30,11 @@ export default class GenerateMigration extends PromptForCode {
 
 		if(saveToFile){
 			if(saveToFile.substr(0,1) != '/'){
+				console.log(
+					'path.resolve(process.env.PWD as string, saveToFile)', 
+					path.resolve(process.env.PWD as string, saveToFile)
+				);
+
 				saveToFile = path.resolve(process.env.PWD as string, saveToFile);
 			}
 
@@ -32,6 +44,7 @@ export default class GenerateMigration extends PromptForCode {
 		}
 
 		if(!file){
+			console.log(`Nenhum arquivo encontrado para disparar beforeSendCall`);
 			return;
 		}
 
