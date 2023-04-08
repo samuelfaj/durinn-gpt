@@ -44,6 +44,8 @@ Esse é o model do nosso sistema:
     }
 
     protected static async updateInterface(modelPath: string, verbose = false){
+        console.log('updateInterface', modelPath, verbose);
+
         const modelDir = fs.existsSync(modelPath) 
 				? modelPath 
 				: path.resolve(process.env.PWD, modelPath);
@@ -57,7 +59,7 @@ Esse é o model do nosso sistema:
             const api = await UpdateInterfaceFromModel.run(
                 fs.readFileSync(interfaceDir).toString(), 
                 interfaceDir, 
-                verbose
+                true
             );
 
             if(api){

@@ -71,6 +71,7 @@ Esse é o model do nosso sistema:
     }
     static updateInterface(modelPath, verbose = false) {
         return __awaiter(this, void 0, void 0, function* () {
+            console.log('updateInterface', modelPath, verbose);
             const modelDir = fs.existsSync(modelPath)
                 ? modelPath
                 : path.resolve(process.env.PWD, modelPath);
@@ -78,7 +79,7 @@ Esse é o model do nosso sistema:
             const modelName = array.pop();
             const interfaceDir = modelDir.replace('/' + modelName, '/../interfaces/models/' + modelName.replace('.ts', '.interface.ts'));
             if (fs.existsSync(interfaceDir)) {
-                const api = yield UpdateInterfaceFromModel_1.default.run(fs.readFileSync(interfaceDir).toString(), interfaceDir, verbose);
+                const api = yield UpdateInterfaceFromModel_1.default.run(fs.readFileSync(interfaceDir).toString(), interfaceDir, true);
                 if (api) {
                     fs.copyFileSync(interfaceDir, interfaceDir + '.bk');
                     fs.writeFileSync(interfaceDir, api.code[0]);
