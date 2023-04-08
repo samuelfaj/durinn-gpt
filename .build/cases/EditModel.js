@@ -102,12 +102,10 @@ Esse é o model do nosso sistema:
             let i = 0;
             let databaseFolder = null;
             while (!databaseFolder && i < 100) {
-                if (fs.existsSync(array.join('/'))) {
-                    const files = fs.readdirSync(array.join('/'));
-                    if (files.indexOf('database') > -1) {
-                        databaseFolder = array.join('/') + '/database';
-                        break;
-                    }
+                const files = fs.readdirSync(array.join('/'));
+                if (files.indexOf('database') > -1) {
+                    databaseFolder = array.join('/') + '/database';
+                    break;
                 }
                 array.pop();
                 i++;
@@ -128,6 +126,10 @@ Esse é o model do nosso sistema:
     static run(toDo, saveToFile, verbose = false) {
         return __awaiter(this, void 0, void 0, function* () {
             const self = this;
+            if (verbose) {
+                console.log('toDo', toDo);
+                console.log('saveToFile', saveToFile);
+            }
             EditModel.files = [];
             console.log('Editando model...');
             yield EditModel.editModel(toDo, saveToFile, verbose);
