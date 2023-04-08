@@ -6,6 +6,8 @@ import OptimizeCode from "../cases/OptimizeCode";
 import UpdateModelFromMigration from "../cases/UpdateModelFromMigration";
 import UpdateInterfaceFromModel from "../cases/UpdateInterfaceFromModel";
 
+const colors = require('colors');
+
 export default class DurinnGPT {
 	/**
 	 * Get the command line arguments and return an object with these arguments.
@@ -109,7 +111,7 @@ export default class DurinnGPT {
 		const classes = DurinnGPT.classes() as any;
 		for(const name in classes){
 			const _class = classes[name];
-			console.log(`   * ${name}: ${_class.description}`);
+			console.log(`   *`,`${DurinnGPT.pascalToKebabCase(name)}`.yellow,`${_class.description}`);
 		}
 	}
 	
