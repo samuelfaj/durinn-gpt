@@ -2,9 +2,6 @@ import * as fs from "fs";
 import UpdateInterfaceFromModel from "./UpdateInterfaceFromModel";
 import PromptForCode from "../classes/PromptForCode";
 import DefaultBaseModel from "../defaults/Default.BaseModel";
-import DefaultModel from "../defaults/Default.Model";
-import DefaultMigration from "../defaults/Default.Migration";
-
 
 const path = require('path');
 
@@ -57,7 +54,11 @@ Esse é o model do nosso sistema:
         const interfaceDir = modelDir.replace('/' + modelName, '/../interfaces/models/' + modelName.replace('.ts', '.interface.ts'));
 
         if(fs.existsSync(interfaceDir)){
-            const api = await UpdateInterfaceFromModel.run(modelDir, interfaceDir, verbose);
+            const api = await UpdateInterfaceFromModel.run(
+                fs.readFileSync(interfaceDir).toString(), 
+                interfaceDir, 
+                verbose
+            );
 
             if(api){
                 fs.copyFileSync(interfaceDir, interfaceDir + '.bk');

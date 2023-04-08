@@ -78,7 +78,7 @@ Esse é o model do nosso sistema:
             const modelName = array.pop();
             const interfaceDir = modelDir.replace('/' + modelName, '/../interfaces/models/' + modelName.replace('.ts', '.interface.ts'));
             if (fs.existsSync(interfaceDir)) {
-                const api = yield UpdateInterfaceFromModel_1.default.run(modelDir, interfaceDir, verbose);
+                const api = yield UpdateInterfaceFromModel_1.default.run(fs.readFileSync(interfaceDir).toString(), interfaceDir, verbose);
                 if (api) {
                     fs.copyFileSync(interfaceDir, interfaceDir + '.bk');
                     fs.writeFileSync(interfaceDir, api.code[0]);
