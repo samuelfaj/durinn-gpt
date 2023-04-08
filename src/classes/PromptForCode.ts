@@ -2,7 +2,7 @@ import Api from "./Api";
 import * as fs from "fs";
 import colors from "colors";
 import DurinnGPT from "./DurinnGPT";
-
+import inquirer from "inquirer";
 
 export default class PromptForCode {
 	protected static prompt = '';
@@ -41,7 +41,7 @@ export default class PromptForCode {
 		}
 
 		const prompt = this.prompt.replace('{{CODE-OR-FILE}}', codeOrFile).replace('{{SAVE-TO-FILE}}', saveToFileCode);
-		const ask = `${this.ask}\n\`\`\`\n${code}\`\`\``.replace('{{CODE-OR-FILE}}', codeOrFile).replace('{{SAVE-TO-FILE}}', saveToFileCode);
+		const ask = `${this.ask}`.replace('{{CODE-OR-FILE}}', codeOrFile).replace('{{SAVE-TO-FILE}}', saveToFileCode);
 		
 
 		if(verbose){
@@ -68,9 +68,28 @@ export default class PromptForCode {
 				saveToFile = path.resolve(process.env.PWD, saveToFile);
 			}
 
+			fs.copyFileSync(saveToFile as string, saveToFile + '.bk');
 			fs.writeFileSync(saveToFile as string, api.code[0]);
+
 			console.log('✅ Arquivo salvo em:', saveToFile);
 
+			const answer = await inquirer.prompt([
+				{
+					type: "confirm",
+					name: "continue",
+					message: "Deseja salvar?",
+					default: true,
+				},
+			]);
+
+			if (!answer.continue) {
+				fs.copyFileSync(saveToFile + '.bk', saveToFile as string);
+				fs.rmSync(saveToFile + '.bk');
+				console.log("🙅‍♂️ Alterações revertidas");
+				process.exit(1);
+			}
+			
+			fs.rmSync(saveToFile + '.bk');
 			return api;
 		}
 		

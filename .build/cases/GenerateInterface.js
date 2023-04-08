@@ -29,6 +29,6 @@ E essa é a interface desse model:
 \`\`\`
 ${Default_Interface_1.default}
 \`\`\``;
-GenerateInterface.ask = `Com base no exemplo acima, gere apenas a interface do seguinte model. Você deve responder em markdown apenas o novo código e entre (\`\`\`). Sem explicações. Apenas o novo código:`;
+GenerateInterface.ask = `Com base no exemplo acima, gere apenas a interface do seguinte model. Você deve responder em markdown apenas o novo código e entre (\`\`\`). Sem explicações. Apenas o novo código:\n\`\`\`\nCODE-OR-FILE\`\`\``;
 GenerateInterface.description = `Ger uma interface a partir do código que passamos.`;
 exports.default = GenerateInterface;

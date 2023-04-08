@@ -38,6 +38,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Api_1 = __importDefault(require("./Api"));
 const fs = __importStar(require("fs"));
 const DurinnGPT_1 = __importDefault(require("./DurinnGPT"));
+const inquirer_1 = __importDefault(require("inquirer"));
 class PromptForCode {
     static getCodeOrFile(codeOrFile) {
         const self = this;
@@ -63,7 +64,7 @@ class PromptForCode {
                 return;
             }
             const prompt = this.prompt.replace('{{CODE-OR-FILE}}', codeOrFile).replace('{{SAVE-TO-FILE}}', saveToFileCode);
-            const ask = `${this.ask}\n\`\`\`\n${code}\`\`\``.replace('{{CODE-OR-FILE}}', codeOrFile).replace('{{SAVE-TO-FILE}}', saveToFileCode);
+            const ask = `${this.ask}`.replace('{{CODE-OR-FILE}}', codeOrFile).replace('{{SAVE-TO-FILE}}', saveToFileCode);
             if (verbose) {
                 console.log(prompt);
                 console.log(ask);
@@ -82,8 +83,24 @@ class PromptForCode {
                 if (saveToFile.substr(0, 1) != '/') {
                     saveToFile = path.resolve(process.env.PWD, saveToFile);
                 }
+                fs.copyFileSync(saveToFile, saveToFile + '.bk');
                 fs.writeFileSync(saveToFile, api.code[0]);
                 console.log('✅ Arquivo salvo em:', saveToFile);
+                const answer = yield inquirer_1.default.prompt([
+                    {
+                        type: "confirm",
+                        name: "continue",
+                        message: "Deseja salvar?",
+                        default: true,
+                    },
+                ]);
+                if (!answer.continue) {
+                    fs.copyFileSync(saveToFile + '.bk', saveToFile);
+                    fs.rmSync(saveToFile + '.bk');
+                    console.log("🙅‍♂️ Alterações revertidas");
+                    process.exit(1);
+                }
+                fs.rmSync(saveToFile + '.bk');
                 return api;
             }
             DurinnGPT_1.default.copyToClipboard(api.code[0]);
