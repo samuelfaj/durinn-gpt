@@ -94,9 +94,10 @@ Esse é o model do nosso sistema:
     }
     static createMigration(toDo, modelPath, verbose = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const modelDir = fs.existsSync(modelPath)
-                ? modelPath
-                : path.resolve(process.env.PWD, modelPath);
+            const modelDir = fs.existsSync(path.resolve(process.env.PWD, modelPath))
+                ? path.resolve(process.env.PWD, modelPath)
+                : modelPath;
+            console.log('modelDir', modelDir);
             const array = modelDir.split('/');
             const modelName = array.pop().replace('.ts', '');
             let i = 0;

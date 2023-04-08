@@ -77,9 +77,11 @@ Esse é o model do nosso sistema:
     }
 
     protected static async createMigration(toDo: string, modelPath: string, verbose = false){
-        const modelDir = fs.existsSync(modelPath) 
-        ? modelPath 
-        : path.resolve(process.env.PWD, modelPath);
+        const modelDir = fs.existsSync(path.resolve(process.env.PWD, modelPath)) 
+        ? path.resolve(process.env.PWD, modelPath)  
+        : modelPath;
+
+        console.log('modelDir', modelDir);
 
         const array = modelDir.split('/');
         const modelName = array.pop().replace('.ts', '');
