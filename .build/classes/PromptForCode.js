@@ -54,6 +54,11 @@ class PromptForCode {
         }
         return code;
     }
+    static beforeSendCall(api, codeOrFile, saveToFile) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // It's a hook
+        });
+    }
     static send(codeOrFile, saveToFile, verbose = false) {
         return __awaiter(this, void 0, void 0, function* () {
             const self = this;
@@ -70,14 +75,16 @@ class PromptForCode {
                 console.log(prompt.green);
                 console.log(ask.green);
             }
-            const api = yield Api_1.default.send([
+            const api = new Api_1.default();
+            this.beforeSendCall(api, codeOrFile, saveToFile);
+            const call = yield api.send([
                 { role: 'system', content: prompt },
                 { role: 'user', content: ask }
             ]);
-            if (verbose && api.code && api.code.length) {
-                console.log(api.code[0].red);
+            if (verbose && call.code && call.code.length) {
+                console.log(call.code[0].red);
             }
-            return api;
+            return call;
         });
     }
     static run(codeOrFile, saveToFile, verbose = false) {

@@ -29,6 +29,10 @@ export default class PromptForCode {
 		return code;
 	}
 
+	static async beforeSendCall(api: Api, codeOrFile: string, saveToFile ?: string){
+		// It's a hook
+	}
+
 	static async send(codeOrFile: string, saveToFile ?: string, verbose = false){
 		const self = this;
 
@@ -49,16 +53,20 @@ export default class PromptForCode {
 			console.log((ask as any).green);
 		}
 		
-		const api = await Api.send([
+		const api = new Api();
+
+		this.beforeSendCall(api, codeOrFile, saveToFile);
+
+		const call = await api.send([
 			{role: 'system', content: prompt},
 			{role: 'user', content: ask}
 		]);
 
-		if(verbose && api.code && api.code.length){
-			console.log((api.code[0] as any).red);
+		if(verbose && call.code && call.code.length){
+			console.log((call.code[0] as any).red);
 		}
 
-		return api;
+		return call;
 	}
 	
 	static async run(codeOrFile: string, saveToFile ?: string, verbose = false): Promise<any>{

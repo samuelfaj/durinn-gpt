@@ -11,11 +11,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Response = void 0;
 class Api {
-    static send(messages) {
+    constructor() {
+        this.context = [];
+    }
+    addContext(context) {
         return __awaiter(this, void 0, void 0, function* () {
+            this.context = this.context.concat(context);
+            return this;
+        });
+    }
+    send(messages) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const self = this;
             const axios = require('axios');
             const apiKey = process.env.OPENAI_API_KEY;
-            const response = yield axios.post('https://api.openai.com/v1/chat/completions', { "model": "gpt-3.5-turbo-0301", "messages": messages }, {
+            const response = yield axios.post('https://api.openai.com/v1/chat/completions', { "model": "gpt-3.5-turbo-0301", "messages": self.context.concat(messages) }, {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${apiKey}`,

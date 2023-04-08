@@ -4,6 +4,10 @@ import PromptForCode from "../classes/PromptForCode";
 import DefaultBaseModel from "../defaults/Default.BaseModel";
 import DefaultInterface from "../defaults/Default.Interface";
 
+import * as fs from "fs";
+import * as path from "path";
+import Intelligence from "../classes/Intelligence";
+
 export default class UpdateInterfaceFromModel extends PromptForCode {
 	static description = `Atualiza uma interface com base em um model que passamos.`;
 	static prompt = 
@@ -21,4 +25,33 @@ export default class UpdateInterfaceFromModel extends PromptForCode {
 		`{{CODE-OR-FILE}}\n` + 
 		`\`\`\``;
 	static ask = `Com base no model acima, atualize a interface abaixo para que contenha todas as colunas e relações do model, você deve responder em markdown apenas o novo código e entre (\`\`\`). Sem explicações. Apenas o novo código.\n\`\`\`\n{{SAVE-TO-FILE}}\`\`\``;
+
+	static async beforeSendCall(api: Api, codeOrFile: string, saveToFile ?: string): Promise<void> {
+		let file = '';
+
+		if(codeOrFile.substr(0,1) != '/'){
+			codeOrFile = path.resolve(process.env.PWD as string, codeOrFile);
+		}
+
+		if(fs.existsSync(codeOrFile)){
+			file = codeOrFile;
+		}
+
+		if(saveToFile){
+			if(saveToFile.substr(0,1) != '/'){
+				saveToFile = path.resolve(process.env.PWD as string, saveToFile);
+			}
+
+			if(fs.existsSync(saveToFile)){
+				file = saveToFile;
+			}
+		}
+
+		if(!file){
+			return;
+		}
+
+		api.addContext(await Intelligence.getTsConfig(file))
+		api.addContext(await Intelligence.getListOfFiles(file))
+	}
 }
