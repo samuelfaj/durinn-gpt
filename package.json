@@ -6,6 +6,7 @@
   "scripts": {
     "build": "npx tsc -p .",
     "durinn-gpt": "ts-node src/durinn-gpt.ts",
+    "playground": "ts-node src/playground.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
