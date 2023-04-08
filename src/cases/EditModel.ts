@@ -56,7 +56,9 @@ Esse é o model do nosso sistema:
         const interfaceDir = modelDir.replace('/' + modelName, '/../interfaces/models/' + modelName.replace('.ts', '.interface.ts'));
 
         if(fs.existsSync(interfaceDir)){
-            const api = await UpdateInterfaceFromModel.run(
+            console.log('fs.readFileSync(interfaceDir).toString()', fs.readFileSync(interfaceDir).toString());
+
+            const api = await UpdateInterfaceFromModel.send(
                 fs.readFileSync(interfaceDir).toString(), 
                 interfaceDir, 
                 true

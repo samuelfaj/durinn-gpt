@@ -71,7 +71,7 @@ export default class PromptForCode {
 		}
 
 		if(!api.code[0]){
-			console.error('❌ Nenhum código retornado', api);
+			return console.error('❌ Nenhum código retornado', api);
 		}
 		
 		if(saveToFile){
