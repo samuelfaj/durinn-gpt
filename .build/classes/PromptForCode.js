@@ -38,6 +38,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Api_1 = __importDefault(require("./Api"));
 const fs = __importStar(require("fs"));
 const DurinnGPT_1 = __importDefault(require("./DurinnGPT"));
+const inquirer = require('inquirer');
 class PromptForCode {
     static getCodeOrFile(codeOrFile) {
         const self = this;
@@ -85,7 +86,6 @@ class PromptForCode {
                 fs.copyFileSync(saveToFile, saveToFile + '.bk');
                 fs.writeFileSync(saveToFile, api.code[0]);
                 console.log('✅ Arquivo salvo em:', saveToFile);
-                const inquirer = require('inquirer');
                 const answer = yield inquirer.prompt([
                     {
                         type: "confirm",

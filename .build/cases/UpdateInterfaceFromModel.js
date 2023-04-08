@@ -22,5 +22,5 @@ UpdateInterfaceFromModel.prompt = `Vou fornecer alguns exemplos para que você g
     `\`\`\`\n` +
     `{{CODE-OR-FILE}}\n` +
     `\`\`\``;
-UpdateInterfaceFromModel.ask = `Com base no model acima, atualize a interface abaixo para que contenha todas as colunas e relações do model, você deve responder em markdown apenas o novo código e entre (\`\`\`). Sem explicações. Apenas o novo código.\n\`\`\`\n{{SAVE-TO-FILE}}\`\`\``;
+UpdateInterfaceFromModel.ask = `Com base no model acima. Editando o mínimo possível e mantendo a compatbilidade, atualize o arquivo abaixo para que contenha todas as colunas e relações do model, você deve responder em markdown apenas o novo código e entre (\`\`\`). Sem explicações. Apenas o novo código.\n\`\`\`\n{{SAVE-TO-FILE}}\`\`\``;
 exports.default = UpdateInterfaceFromModel;
