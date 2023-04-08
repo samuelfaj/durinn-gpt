@@ -68,7 +68,7 @@ Esse é o model do nosso sistema:
                 fs.writeFileSync(dir, api.code[0]);
                 EditModel.files.push(dir);
                 EditModel.backups.push(dir + '.bk');
-                console.log('✅ Arquivo salvo em:', dir);
+                console.log('✅', 'Arquivo salvo em:', dir);
             }
         });
     }
@@ -87,7 +87,7 @@ Esse é o model do nosso sistema:
                     fs.writeFileSync(interfaceDir, api.code[0]);
                     EditModel.files.push(interfaceDir);
                     EditModel.backups.push(interfaceDir + '.bk');
-                    console.log('✅ Arquivo salvo em:', interfaceDir);
+                    console.log('✅', 'Arquivo salvo em:', interfaceDir);
                 }
             }
         });
@@ -103,7 +103,6 @@ Esse é o model do nosso sistema:
             let databaseFolder = null;
             while (!databaseFolder && i < 100) {
                 const files = fs.readdirSync(array.join('/'));
-                console.log(array.join('/'));
                 if (files.indexOf('database') > -1) {
                     databaseFolder = array.join('/') + '/database';
                     break;
@@ -120,7 +119,7 @@ Esse é o model do nosso sistema:
             if (api) {
                 fs.writeFileSync(migrationDir, api.code[0]);
                 EditModel.files.push(migrationDir);
-                console.log('✅ Arquivo salvo em:', migrationDir);
+                console.log('✅', 'Arquivo salvo em:', migrationDir);
             }
         });
     }
@@ -148,6 +147,7 @@ Esse é o model do nosso sistema:
                 }
                 for (const file of self.backups) {
                     fs.copyFileSync(file, file.replace('.bk', ''));
+                    fs.rmSync(file);
                 }
                 console.log("🙅‍♂️ Alterações revertidas");
                 process.exit(1);
