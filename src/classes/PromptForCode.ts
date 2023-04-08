@@ -54,7 +54,7 @@ export default class PromptForCode {
 			{role: 'user', content: ask}
 		]);
 
-		if(verbose){
+		if(verbose && api.code && api.code.length){
 			console.log((api.code[0] as any).red);
 		}
 

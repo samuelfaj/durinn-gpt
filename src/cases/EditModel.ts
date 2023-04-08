@@ -10,6 +10,8 @@ const path = require('path');
 
 export default class EditModel extends PromptForCode {
     static files: string[] = [];
+    static backups: string[] = [];
+
 	static description = `Edita um model, atualiza a interface e cria uma migration.`;
 
     protected static async editModel(codeOrFile: string, saveToFile: string, verbose = false){
@@ -27,15 +29,21 @@ Esse é o model do nosso sistema:
 {{SAVE-TO-FILE}}
 \`\`\``;
             
-        EditModel.ask = `Com base no model acima, faça o seguinte: "{{CODE-OR-FILE}}".\n` + 
-        `Você deve responder em markdown apenas o novo código e entre (\`\`\`). Sem explicações.`;
+        EditModel.ask = `Com base no model acima, faça as atualizações requisitadas abaixo. Você deve responder em markdown apenas o código e entre (\`\`\`). Sem explicações.\n Faça o seguinte: "{{CODE-OR-FILE}}"`;
 
         const dir = fs.existsSync(saveToFile) 
 				? saveToFile 
 				: path.resolve(process.env.PWD, saveToFile);
 
-        EditModel.files.push(dir);
-        return await EditModel.send(codeOrFile, saveToFile, verbose);
+        const api = await EditModel.send(codeOrFile, saveToFile, verbose);
+
+        if(api){
+            fs.copyFileSync(dir, dir + '.bk');
+            fs.writeFileSync(dir, api.code[0]);
+
+            EditModel.files.push(dir);
+            EditModel.backups.push(dir + '.bk');
+        }
     }
 
     protected static async updateInterface(modelPath: string, verbose = false){
@@ -49,8 +57,15 @@ Esse é o model do nosso sistema:
         const interfaceDir = modelDir.replace('/' + modelName, '/../interfaces/models/' + modelName.replace('.ts', '.interface.ts'));
 
         if(fs.existsSync(interfaceDir)){
-            EditModel.files.push(interfaceDir);
-            await UpdateInterfaceFromModel.run(modelDir, interfaceDir, verbose);
+            const api = await UpdateInterfaceFromModel.run(modelDir, interfaceDir, verbose);
+
+            if(api){
+                fs.copyFileSync(interfaceDir, interfaceDir + '.bk');
+                fs.writeFileSync(interfaceDir, api.code[0]);
+
+                EditModel.files.push(interfaceDir);
+                EditModel.backups.push(interfaceDir + '.bk');
+            }
         }
     }
 
@@ -58,7 +73,10 @@ Esse é o model do nosso sistema:
 		const self = this;
 
         EditModel.files = [];
+        console.log('Editando model...');
         await EditModel.editModel(codeOrFile, saveToFile, verbose);
+
+        console.log('Editando interface...');
         await EditModel.updateInterface(saveToFile, verbose);
     }
 }
