@@ -81,7 +81,7 @@ Esse é o model do nosso sistema:
             const modelName = array.pop();
             const interfaceDir = modelDir.replace('/' + modelName, '/../interfaces/models/' + modelName.replace('.ts', '.interface.ts'));
             if (fs.existsSync(interfaceDir)) {
-                const api = yield UpdateInterfaceFromModel_1.default.send(fs.readFileSync(modelDir).toString(), interfaceDir, true);
+                const api = yield UpdateInterfaceFromModel_1.default.send(fs.readFileSync(modelDir).toString(), interfaceDir, verbose);
                 if (api) {
                     fs.copyFileSync(interfaceDir, interfaceDir + '.bk');
                     fs.writeFileSync(interfaceDir, api.code[0]);
@@ -115,7 +115,7 @@ Esse é o model do nosso sistema:
             }
             const moment = require("moment");
             const migrationDir = databaseFolder + `/${moment().format(`YYYYMMDDHHmmss`)}-adjusts-to-${modelName}.js`;
-            const api = yield GenerateMigration_1.default.send(`Crie uma migration que faça o seguinte com a tabela ${modelName}: ${toDo}`, migrationDir, true);
+            const api = yield GenerateMigration_1.default.send(`Crie uma migration que faça o seguinte com a tabela ${modelName}: ${toDo}`, migrationDir, verbose);
             if (api) {
                 fs.writeFileSync(migrationDir, api.code[0]);
                 EditModel.files.push(migrationDir);

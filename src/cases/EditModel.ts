@@ -61,7 +61,7 @@ Esse é o model do nosso sistema:
             const api = await UpdateInterfaceFromModel.send(
                 fs.readFileSync(modelDir).toString(), 
                 interfaceDir, 
-                true
+                verbose
             );
 
             if(api){
@@ -109,7 +109,7 @@ Esse é o model do nosso sistema:
         const api = await GenerateMigration.send(
             `Crie uma migration que faça o seguinte com a tabela ${modelName}: ${toDo}`, 
             migrationDir, 
-            true
+            verbose
         );
 
         if(api){
