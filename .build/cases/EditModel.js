@@ -100,10 +100,12 @@ Esse é o model do nosso sistema:
             let databaseFolder = null;
             while (!databaseFolder && i < 100) {
                 const files = fs.readdirSync(array.join('/'));
+                console.log(array.join('/'));
                 if (files.indexOf('database') > -1) {
                     databaseFolder = array.join('/') + '/database';
                     break;
                 }
+                array.pop();
                 i++;
             }
             if (!databaseFolder || !fs.existsSync(databaseFolder)) {
