@@ -61,7 +61,7 @@ Esse é o model do nosso sistema:
             EditModel.ask = `Com base no model acima, faça as atualizações requisitadas abaixo. Você deve responder em markdown apenas o código e entre (\`\`\`). Sem explicações.\n Faça o seguinte: "{{CODE-OR-FILE}}"`;
             const dir = fs.existsSync(saveToFile)
                 ? saveToFile
-                : path.resolve(process.env.PWD, saveToFile);
+                : path.resolve(process.cwd(), saveToFile);
             const api = yield EditModel.send(codeOrFile, saveToFile, verbose);
             if (api) {
                 fs.copyFileSync(dir, dir + '.bk');
@@ -76,7 +76,7 @@ Esse é o model do nosso sistema:
         return __awaiter(this, void 0, void 0, function* () {
             const modelDir = fs.existsSync(modelPath)
                 ? modelPath
-                : path.resolve(process.env.PWD, modelPath);
+                : path.resolve(process.cwd(), modelPath);
             const array = modelDir.split('/');
             const modelName = array.pop();
             const interfaceDir = modelDir.replace('/' + modelName, '/../interfaces/models/' + modelName.replace('.ts', '.interface.ts'));
@@ -94,8 +94,8 @@ Esse é o model do nosso sistema:
     }
     static createMigration(toDo, modelPath, verbose = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const modelDir = fs.existsSync(path.resolve(process.env.PWD, modelPath))
-                ? path.resolve(process.env.PWD, modelPath)
+            const modelDir = fs.existsSync(path.resolve(process.cwd(), modelPath))
+                ? path.resolve(process.cwd(), modelPath)
                 : modelPath;
             console.log('modelDir', modelDir);
             const array = modelDir.split('/');

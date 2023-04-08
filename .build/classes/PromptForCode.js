@@ -46,10 +46,10 @@ class PromptForCode {
         const self = this;
         const path = require('path');
         let code = codeOrFile;
-        if (fs.existsSync(codeOrFile) || fs.existsSync(path.resolve(process.env.PWD, codeOrFile))) {
+        if (fs.existsSync(codeOrFile) || fs.existsSync(path.resolve(process.cwd(), codeOrFile))) {
             const dir = fs.existsSync(codeOrFile)
                 ? codeOrFile
-                : path.resolve(process.env.PWD, codeOrFile);
+                : path.resolve(process.cwd(), codeOrFile);
             code = fs.readFileSync(dir).toString();
         }
         return code;
@@ -62,12 +62,12 @@ class PromptForCode {
     static send(codeOrFile, saveToFile, verbose = false) {
         return __awaiter(this, void 0, void 0, function* () {
             const self = this;
-            if (fs.existsSync(path.resolve(process.env.PWD, codeOrFile))) {
-                codeOrFile = path.resolve(process.env.PWD, codeOrFile);
+            if (fs.existsSync(path.resolve(process.cwd(), codeOrFile))) {
+                codeOrFile = path.resolve(process.cwd(), codeOrFile);
                 console.log('codeOrFile', codeOrFile);
             }
-            if (fs.existsSync(path.resolve(process.env.PWD, saveToFile))) {
-                saveToFile = path.resolve(process.env.PWD, saveToFile);
+            if (fs.existsSync(path.resolve(process.cwd(), saveToFile))) {
+                saveToFile = path.resolve(process.cwd(), saveToFile);
                 console.log('saveToFile', saveToFile);
             }
             let code = PromptForCode.getCodeOrFile(codeOrFile);
@@ -108,7 +108,7 @@ class PromptForCode {
             }
             if (saveToFile) {
                 if (saveToFile.substr(0, 1) != '/') {
-                    saveToFile = path.resolve(process.env.PWD, saveToFile);
+                    saveToFile = path.resolve(process.cwd(), saveToFile);
                 }
                 fs.copyFileSync(saveToFile, saveToFile + '.bk');
                 fs.writeFileSync(saveToFile, api.code[0]);

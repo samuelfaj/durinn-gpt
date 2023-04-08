@@ -13,15 +13,15 @@ export default class GenerateMigration extends PromptForCode {
 	static async beforeSendCall(api: Api, codeOrFile: string, saveToFile ?: string): Promise<void> {
 		console.log(`Disparando beforeSendCall...`);
 
-		let file = path.resolve(process.env.PWD as string);
+		let file = path.resolve(process.cwd() as string);
 
 		if(codeOrFile.substr(0,1) != '/'){
 			console.log(
-				'path.resolve(process.env.PWD as string, codeOrFile)', 
-				path.resolve(process.env.PWD as string, codeOrFile)
+				'path.resolve(process.cwd() as string, codeOrFile)', 
+				path.resolve(process.cwd() as string, codeOrFile)
 			);
 
-			codeOrFile = path.resolve(process.env.PWD as string, codeOrFile);
+			codeOrFile = path.resolve(process.cwd() as string, codeOrFile);
 		}
 
 		if(fs.existsSync(codeOrFile)){
@@ -31,11 +31,11 @@ export default class GenerateMigration extends PromptForCode {
 		if(saveToFile){
 			if(saveToFile.substr(0,1) != '/'){
 				console.log(
-					'path.resolve(process.env.PWD as string, saveToFile)', 
-					path.resolve(process.env.PWD as string, saveToFile)
+					'path.resolve(process.cwd() as string, saveToFile)', 
+					path.resolve(process.cwd() as string, saveToFile)
 				);
 
-				saveToFile = path.resolve(process.env.PWD as string, saveToFile);
+				saveToFile = path.resolve(process.cwd() as string, saveToFile);
 			}
 
 			if(fs.existsSync(saveToFile)){

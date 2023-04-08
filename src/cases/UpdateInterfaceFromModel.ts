@@ -30,7 +30,7 @@ export default class UpdateInterfaceFromModel extends PromptForCode {
 		let file = '';
 
 		if(codeOrFile.substr(0,1) != '/'){
-			codeOrFile = path.resolve(process.env.PWD as string, codeOrFile);
+			codeOrFile = path.resolve(process.cwd() as string, codeOrFile);
 		}
 
 		if(fs.existsSync(codeOrFile)){
@@ -39,7 +39,7 @@ export default class UpdateInterfaceFromModel extends PromptForCode {
 
 		if(saveToFile){
 			if(saveToFile.substr(0,1) != '/'){
-				saveToFile = path.resolve(process.env.PWD as string, saveToFile);
+				saveToFile = path.resolve(process.cwd() as string, saveToFile);
 			}
 
 			if(fs.existsSync(saveToFile)){

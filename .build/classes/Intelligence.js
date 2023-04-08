@@ -51,8 +51,8 @@ class Intelligence {
     }
     static getTsConfig(filePath) {
         return __awaiter(this, void 0, void 0, function* () {
-            const modelDir = fs.existsSync(path.resolve(process.env.PWD, filePath))
-                ? path.resolve(process.env.PWD, filePath)
+            const modelDir = fs.existsSync(path.resolve(process.cwd(), filePath))
+                ? path.resolve(process.cwd(), filePath)
                 : filePath;
             const array = modelDir.split('/');
             const modelName = array.pop().replace('.ts', '');
@@ -103,8 +103,8 @@ class Intelligence {
                 });
                 return files;
             };
-            const modelDir = fs.existsSync(path.resolve(process.env.PWD, filePath))
-                ? path.resolve(process.env.PWD, filePath)
+            const modelDir = fs.existsSync(path.resolve(process.cwd(), filePath))
+                ? path.resolve(process.cwd(), filePath)
                 : filePath;
             const array = modelDir.split('/');
             const modelName = array.pop().replace('.ts', '');

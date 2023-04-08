@@ -32,7 +32,7 @@ Esse é o model do nosso sistema:
 
         const dir = fs.existsSync(saveToFile) 
 				? saveToFile 
-				: path.resolve(process.env.PWD, saveToFile);
+				: path.resolve(process.cwd(), saveToFile);
 
         const api = await EditModel.send(codeOrFile, saveToFile, verbose);
 
@@ -50,7 +50,7 @@ Esse é o model do nosso sistema:
     protected static async updateInterface(modelPath: string, verbose = false){
         const modelDir = fs.existsSync(modelPath) 
 				? modelPath 
-				: path.resolve(process.env.PWD, modelPath);
+				: path.resolve(process.cwd(), modelPath);
 
         const array = modelDir.split('/');
         const modelName = array.pop();
@@ -77,8 +77,8 @@ Esse é o model do nosso sistema:
     }
 
     protected static async createMigration(toDo: string, modelPath: string, verbose = false){
-        const modelDir = fs.existsSync(path.resolve(process.env.PWD, modelPath)) 
-        ? path.resolve(process.env.PWD, modelPath)  
+        const modelDir = fs.existsSync(path.resolve(process.cwd(), modelPath)) 
+        ? path.resolve(process.cwd(), modelPath)  
         : modelPath;
 
         console.log('modelDir', modelDir);

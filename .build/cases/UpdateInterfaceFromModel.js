@@ -46,14 +46,14 @@ class UpdateInterfaceFromModel extends PromptForCode_1.default {
         return __awaiter(this, void 0, void 0, function* () {
             let file = '';
             if (codeOrFile.substr(0, 1) != '/') {
-                codeOrFile = path.resolve(process.env.PWD, codeOrFile);
+                codeOrFile = path.resolve(process.cwd(), codeOrFile);
             }
             if (fs.existsSync(codeOrFile)) {
                 file = codeOrFile;
             }
             if (saveToFile) {
                 if (saveToFile.substr(0, 1) != '/') {
-                    saveToFile = path.resolve(process.env.PWD, saveToFile);
+                    saveToFile = path.resolve(process.cwd(), saveToFile);
                 }
                 if (fs.existsSync(saveToFile)) {
                     file = saveToFile;

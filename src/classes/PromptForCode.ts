@@ -19,10 +19,10 @@ export default class PromptForCode {
 
 		let code = codeOrFile;
 
-		if(fs.existsSync(codeOrFile) || fs.existsSync(path.resolve(process.env.PWD, codeOrFile))){
+		if(fs.existsSync(codeOrFile) || fs.existsSync(path.resolve(process.cwd(), codeOrFile))){
 			const dir = fs.existsSync(codeOrFile) 
 				? codeOrFile 
-				: path.resolve(process.env.PWD, codeOrFile);
+				: path.resolve(process.cwd(), codeOrFile);
 			code = fs.readFileSync(dir).toString();
 		}
 
@@ -36,13 +36,13 @@ export default class PromptForCode {
 	static async send(codeOrFile: string, saveToFile ?: string, verbose = false){
 		const self = this;
 
-		if(fs.existsSync(path.resolve(process.env.PWD, codeOrFile))){
-			codeOrFile = path.resolve(process.env.PWD, codeOrFile);
+		if(fs.existsSync(path.resolve(process.cwd(), codeOrFile))){
+			codeOrFile = path.resolve(process.cwd(), codeOrFile);
 			console.log('codeOrFile', codeOrFile);
 		}
 
-		if(fs.existsSync(path.resolve(process.env.PWD, saveToFile))){
-			saveToFile = path.resolve(process.env.PWD, saveToFile);
+		if(fs.existsSync(path.resolve(process.cwd(), saveToFile))){
+			saveToFile = path.resolve(process.cwd(), saveToFile);
 			console.log('saveToFile', saveToFile);
 		}
 
@@ -94,7 +94,7 @@ export default class PromptForCode {
 		
 		if(saveToFile){
 			if(saveToFile.substr(0,1) != '/'){
-				saveToFile = path.resolve(process.env.PWD, saveToFile);
+				saveToFile = path.resolve(process.cwd(), saveToFile);
 			}
 
 			fs.copyFileSync(saveToFile as string, saveToFile + '.bk');
