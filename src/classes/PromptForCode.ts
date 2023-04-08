@@ -1,9 +1,10 @@
 import Api from "./Api";
 import * as fs from "fs";
-import colors from "colors";
 import DurinnGPT from "./DurinnGPT";
 
 const inquirer = require('inquirer');
+const colors = require('colors');
+const path = require('path');
 
 export default class PromptForCode {
 	protected static prompt = '';
@@ -27,10 +28,9 @@ export default class PromptForCode {
 
 		return code;
 	}
-	
-	static async run(codeOrFile: string, saveToFile ?: string, verbose = false){
+
+	static async send(codeOrFile: string, saveToFile ?: string, verbose = false){
 		const self = this;
-		const path = require('path');
 
 		let code = PromptForCode.getCodeOrFile(codeOrFile);
 		let saveToFileCode = saveToFile ? PromptForCode.getCodeOrFile(saveToFile) : '';
@@ -38,30 +38,40 @@ export default class PromptForCode {
 		if(!code){
 			console.log(`${self.name}: ${self.description}`);
 			console.log(`Usage: npm run durinn-gpt -- ${DurinnGPT.pascalToKebabCase(self.name)} <CODE> <FILE-TO-SAVE>`);
-			return;
+			return false;
 		}
 
 		const prompt = this.prompt.replace('{{CODE-OR-FILE}}', code).replace('{{SAVE-TO-FILE}}', saveToFileCode);
 		const ask = `${this.ask}`.replace('{{CODE-OR-FILE}}', code).replace('{{SAVE-TO-FILE}}', saveToFileCode);
 		
-
 		if(verbose){
-			console.log(prompt);
-			console.log(ask);
+			console.log((prompt as any).green);
+			console.log((ask as any).green);
 		}
 		
 		const api = await Api.send([
 			{role: 'system', content: prompt},
 			{role: 'user', content: ask}
 		]);
-		
-		if(!api.code[0]){
-			return console.error(`Nenhum código retornado`, api);
-		}
-
 
 		if(verbose){
-			console.log(api.code[0]);
+			console.log((api.code[0] as any).red);
+		}
+
+		return api;
+	}
+	
+	static async run(codeOrFile: string, saveToFile ?: string, verbose = false): Promise<any>{
+		const self = this;
+		
+		const api = await PromptForCode.send(codeOrFile, saveToFile, verbose);
+
+		if(!api){
+			return false;
+		}
+
+		if(!api.code[0]){
+			console.error('❌ Nenhum código retornado', api);
 		}
 		
 		if(saveToFile){

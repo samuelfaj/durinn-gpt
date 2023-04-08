@@ -39,6 +39,8 @@ const Api_1 = __importDefault(require("./Api"));
 const fs = __importStar(require("fs"));
 const DurinnGPT_1 = __importDefault(require("./DurinnGPT"));
 const inquirer = require('inquirer');
+const colors = require('colors');
+const path = require('path');
 class PromptForCode {
     static getCodeOrFile(codeOrFile) {
         const self = this;
@@ -52,32 +54,41 @@ class PromptForCode {
         }
         return code;
     }
-    static run(codeOrFile, saveToFile, verbose = false) {
+    static send(codeOrFile, saveToFile, verbose = false) {
         return __awaiter(this, void 0, void 0, function* () {
             const self = this;
-            const path = require('path');
             let code = PromptForCode.getCodeOrFile(codeOrFile);
             let saveToFileCode = saveToFile ? PromptForCode.getCodeOrFile(saveToFile) : '';
             if (!code) {
                 console.log(`${self.name}: ${self.description}`);
                 console.log(`Usage: npm run durinn-gpt -- ${DurinnGPT_1.default.pascalToKebabCase(self.name)} <CODE> <FILE-TO-SAVE>`);
-                return;
+                return false;
             }
             const prompt = this.prompt.replace('{{CODE-OR-FILE}}', code).replace('{{SAVE-TO-FILE}}', saveToFileCode);
             const ask = `${this.ask}`.replace('{{CODE-OR-FILE}}', code).replace('{{SAVE-TO-FILE}}', saveToFileCode);
             if (verbose) {
-                console.log(prompt);
-                console.log(ask);
+                console.log(prompt.green);
+                console.log(ask.green);
             }
             const api = yield Api_1.default.send([
                 { role: 'system', content: prompt },
                 { role: 'user', content: ask }
             ]);
-            if (!api.code[0]) {
-                return console.error(`Nenhum código retornado`, api);
-            }
             if (verbose) {
-                console.log(api.code[0]);
+                console.log(api.code[0].red);
+            }
+            return api;
+        });
+    }
+    static run(codeOrFile, saveToFile, verbose = false) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const self = this;
+            const api = yield PromptForCode.send(codeOrFile, saveToFile, verbose);
+            if (!api) {
+                return false;
+            }
+            if (!api.code[0]) {
+                console.error('❌ Nenhum código retornado', api);
             }
             if (saveToFile) {
                 if (saveToFile.substr(0, 1) != '/') {

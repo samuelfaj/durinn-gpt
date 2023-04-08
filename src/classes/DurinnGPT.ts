@@ -6,7 +6,8 @@ import OptimizeCode from "../cases/OptimizeCode";
 import UpdateModelFromMigration from "../cases/UpdateModelFromMigration";
 import UpdateInterfaceFromModel from "../cases/UpdateInterfaceFromModel";
 
-const colors = require('colors');
+import colors from "colors";
+require('colors');
 
 export default class DurinnGPT {
 	/**
