@@ -36,6 +36,16 @@ export default class PromptForCode {
 	static async send(codeOrFile: string, saveToFile ?: string, verbose = false){
 		const self = this;
 
+		if(fs.existsSync(path.resolve(process.env.PWD, codeOrFile))){
+			codeOrFile = path.resolve(process.env.PWD, codeOrFile);
+			console.log('codeOrFile', codeOrFile);
+		}
+
+		if(fs.existsSync(path.resolve(process.env.PWD, saveToFile))){
+			saveToFile = path.resolve(process.env.PWD, saveToFile);
+			console.log('saveToFile', saveToFile);
+		}
+
 		let code = PromptForCode.getCodeOrFile(codeOrFile);
 		let saveToFileCode = saveToFile ? PromptForCode.getCodeOrFile(saveToFile) : '';
 

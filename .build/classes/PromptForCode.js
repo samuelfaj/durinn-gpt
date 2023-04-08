@@ -62,6 +62,14 @@ class PromptForCode {
     static send(codeOrFile, saveToFile, verbose = false) {
         return __awaiter(this, void 0, void 0, function* () {
             const self = this;
+            if (fs.existsSync(path.resolve(process.env.PWD, codeOrFile))) {
+                codeOrFile = path.resolve(process.env.PWD, codeOrFile);
+                console.log('codeOrFile', codeOrFile);
+            }
+            if (fs.existsSync(path.resolve(process.env.PWD, saveToFile))) {
+                saveToFile = path.resolve(process.env.PWD, saveToFile);
+                console.log('saveToFile', saveToFile);
+            }
             let code = PromptForCode.getCodeOrFile(codeOrFile);
             let saveToFileCode = saveToFile ? PromptForCode.getCodeOrFile(saveToFile) : '';
             if (!code) {
