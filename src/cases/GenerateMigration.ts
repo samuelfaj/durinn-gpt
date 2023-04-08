@@ -47,6 +47,13 @@ export default class GenerateMigration extends PromptForCode {
 		// 	console.log(`Nenhum arquivo encontrado para disparar beforeSendCall`);
 		// 	return;
 		// }
+		
+		console.log('file', file);
+		console.log('file', file);
+		console.log('file', file);
+		console.log('file', file);
+		console.log('file', file);
+		console.log('file', file);
 
 		api.addContext(await Intelligence.getTsConfig(file))
 		api.addContext(await Intelligence.getListOfFiles(file))

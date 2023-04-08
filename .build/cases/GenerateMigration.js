@@ -74,6 +74,12 @@ class GenerateMigration extends PromptForCode_1.default {
             // 	console.log(`Nenhum arquivo encontrado para disparar beforeSendCall`);
             // 	return;
             // }
+            console.log('file', file);
+            console.log('file', file);
+            console.log('file', file);
+            console.log('file', file);
+            console.log('file', file);
+            console.log('file', file);
             api.addContext(yield Intelligence_1.default.getTsConfig(file));
             api.addContext(yield Intelligence_1.default.getListOfFiles(file));
         });
