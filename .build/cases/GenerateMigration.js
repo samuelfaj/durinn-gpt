@@ -32,6 +32,6 @@ class GenerateMigration extends PromptForCode_1.default {
     }
 }
 GenerateMigration.prompt = `Sua missão é criar uma migration usando a biblioteca Sequelize ORM. Essa migration deve usar transaction e você deve responder em markdown apenas o código novo entre (\`\`\`). Sem explicações.`;
-GenerateMigration.ask = ``;
+GenerateMigration.ask = `{{CODE-OR-FILE}}`;
 GenerateMigration.description = `Gera uma migration do Sequelize a partir das instruções que passamos, use o padrão camelCase e adicione comentários nas colunas sempre que possível. Exemplo: Crie uma migration adicionando o campo nome (string) na tabela Usuários`;
 exports.default = GenerateMigration;
