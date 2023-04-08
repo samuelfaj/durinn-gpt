@@ -44,23 +44,24 @@ export default class Intelligence {
 
 	static async getTsConfig(filePath: string): Promise<Messages>{
         const modelDir = fs.existsSync(path.resolve(process.cwd(), filePath)) 
-        ? path.resolve(process.cwd(), filePath) 
+        ? path.resolve(process.cwd(), filePath)
         : filePath;
 
         const array = modelDir.split('/');
-        const modelName = array.pop().replace('.ts', '');
 
         let i = 0;
         let rootFolder = null;
 
         while(!rootFolder && i < 100){
-            const files = fs.readdirSync(array.join('/'));
-
-            if(files.indexOf('tsconfig.json') > -1){
-                rootFolder = array.join('/');
-                break;
-            }
-
+			if(fs.existsSync(array.join('/'))){
+				const files = fs.readdirSync(array.join('/'));
+				
+				if(files.indexOf('tsconfig.json') > -1){
+					rootFolder = array.join('/');
+					break;
+				}
+			}
+			
             array.pop();
             i++;
         }
@@ -111,19 +112,20 @@ export default class Intelligence {
         : filePath;
 
         const array = modelDir.split('/');
-        const modelName = array.pop().replace('.ts', '');
 
         let i = 0;
         let rootFolder = null;
 
         while(!rootFolder && i < 100){
-            const files = fs.readdirSync(array.join('/'));
-
-            if(files.indexOf('tsconfig.json') > -1){
-                rootFolder = array.join('/');
-                break;
-            }
-
+	        if(fs.existsSync(array.join('/'))){
+		        const files = fs.readdirSync(array.join('/'));
+		
+		        if(files.indexOf('tsconfig.json') > -1){
+			        rootFolder = array.join('/');
+			        break;
+		        }
+	        }
+			
             array.pop();
             i++;
         }
