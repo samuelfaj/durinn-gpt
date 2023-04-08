@@ -2,7 +2,6 @@ import Api from "./Api";
 import * as fs from "fs";
 import colors from "colors";
 import DurinnGPT from "./DurinnGPT";
-import inquirer from "inquirer";
 
 export default class PromptForCode {
 	protected static prompt = '';
@@ -73,6 +72,7 @@ export default class PromptForCode {
 
 			console.log('✅ Arquivo salvo em:', saveToFile);
 
+			const inquirer = require('inquirer');
 			const answer = await inquirer.prompt([
 				{
 					type: "confirm",
