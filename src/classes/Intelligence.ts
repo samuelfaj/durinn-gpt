@@ -53,7 +53,7 @@ export default class Intelligence {
         let rootFolder = null;
 
         while(!rootFolder && i < 100){
-			if(fs.existsSync(array.join('/'))){
+	        if(fs.existsSync(array.join('/')) && fs.lstatSync(array.join('/')).isDirectory() ){
 				const files = fs.readdirSync(array.join('/'));
 				
 				if(files.indexOf('tsconfig.json') > -1){
@@ -117,7 +117,7 @@ export default class Intelligence {
         let rootFolder = null;
 
         while(!rootFolder && i < 100){
-	        if(fs.existsSync(array.join('/'))){
+	        if(fs.existsSync(array.join('/')) && fs.lstatSync(array.join('/')).isDirectory() ){
 		        const files = fs.readdirSync(array.join('/'));
 		
 		        if(files.indexOf('tsconfig.json') > -1){
