@@ -43,9 +43,9 @@ export default class Intelligence {
 	}
 
 	static async getTsConfig(filePath: string): Promise<Messages>{
-        const modelDir = fs.existsSync(filePath) 
-        ? filePath 
-        : path.resolve(process.env.PWD, filePath);
+        const modelDir = fs.existsSync(path.resolve(process.env.PWD, filePath)) 
+        ? path.resolve(process.env.PWD, filePath) 
+        : filePath;
 
         const array = modelDir.split('/');
         const modelName = array.pop().replace('.ts', '');
@@ -106,9 +106,9 @@ export default class Intelligence {
             return files;
         }
 
-        const modelDir = fs.existsSync(filePath) 
-        ? filePath 
-        : path.resolve(process.env.PWD, filePath);
+        const modelDir = fs.existsSync(path.resolve(process.env.PWD, filePath)) 
+        ? path.resolve(process.env.PWD, filePath) 
+        : filePath;
 
         const array = modelDir.split('/');
         const modelName = array.pop().replace('.ts', '');
