@@ -40,6 +40,7 @@ const UpdateInterfaceFromModel_1 = __importDefault(require("./UpdateInterfaceFro
 const PromptForCode_1 = __importDefault(require("../classes/PromptForCode"));
 const Default_BaseModel_1 = __importDefault(require("../defaults/Default.BaseModel"));
 const GenerateMigration_1 = __importDefault(require("./GenerateMigration"));
+const inquirer = require('inquirer');
 const path = require('path');
 class EditModel extends PromptForCode_1.default {
     static editModel(codeOrFile, saveToFile, verbose = false) {
@@ -67,6 +68,7 @@ Esse é o model do nosso sistema:
                 fs.writeFileSync(dir, api.code[0]);
                 EditModel.files.push(dir);
                 EditModel.backups.push(dir + '.bk');
+                console.log('✅ Arquivo salvo em:', dir);
             }
         });
     }
@@ -85,15 +87,16 @@ Esse é o model do nosso sistema:
                     fs.writeFileSync(interfaceDir, api.code[0]);
                     EditModel.files.push(interfaceDir);
                     EditModel.backups.push(interfaceDir + '.bk');
+                    console.log('✅ Arquivo salvo em:', interfaceDir);
                 }
             }
         });
     }
     static createMigration(toDo, modelPath, verbose = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const modelDir = fs.existsSync(path.resolve(process.env.PWD, modelPath))
-                ? path.resolve(process.env.PWD, modelPath)
-                : modelPath;
+            const modelDir = fs.existsSync(modelPath)
+                ? modelPath
+                : path.resolve(process.env.PWD, modelPath);
             const array = modelDir.split('/');
             const modelName = array.pop().replace('.ts', '');
             let i = 0;
@@ -113,11 +116,11 @@ Esse é o model do nosso sistema:
             }
             const moment = require("moment");
             const migrationDir = databaseFolder + `/${moment().format(`YYYYMMDDHHmmss`)}-adjusts-to-${modelName}.js`;
-            console.log('migrationDir', migrationDir);
             const api = yield GenerateMigration_1.default.send(`Crie uma migration que faça o seguinte com a tabela ${modelName}: ${toDo}`, migrationDir, true);
             if (api) {
                 fs.writeFileSync(migrationDir, api.code[0]);
                 EditModel.files.push(migrationDir);
+                console.log('✅ Arquivo salvo em:', migrationDir);
             }
         });
     }
@@ -131,6 +134,28 @@ Esse é o model do nosso sistema:
             yield EditModel.updateInterface(saveToFile, verbose);
             console.log('Gerando migration...');
             yield EditModel.createMigration(toDo, saveToFile, verbose);
+            const answer = yield inquirer.prompt([
+                {
+                    type: "confirm",
+                    name: "continue",
+                    message: "Deseja salvar as alterações?",
+                    default: true,
+                },
+            ]);
+            if (!answer.continue) {
+                for (const file of self.files) {
+                    fs.rmSync(file);
+                }
+                for (const file of self.backups) {
+                    fs.copyFileSync(file, file.replace('.bk', ''));
+                }
+                console.log("🙅‍♂️ Alterações revertidas");
+                process.exit(1);
+            }
+            for (const file of self.backups) {
+                fs.copyFileSync(file, file.replace('.bk', ''));
+            }
+            return true;
         });
     }
 }

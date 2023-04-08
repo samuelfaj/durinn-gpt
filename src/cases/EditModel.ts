@@ -4,6 +4,7 @@ import PromptForCode from "../classes/PromptForCode";
 import DefaultBaseModel from "../defaults/Default.BaseModel";
 import GenerateMigration from "./GenerateMigration";
 
+const inquirer = require('inquirer');
 const path = require('path');
 
 export default class EditModel extends PromptForCode {
@@ -41,6 +42,8 @@ Esse é o model do nosso sistema:
 
             EditModel.files.push(dir);
             EditModel.backups.push(dir + '.bk');
+                
+            console.log('✅ Arquivo salvo em:', dir);
         }
     }
 
@@ -67,14 +70,16 @@ Esse é o model do nosso sistema:
 
                 EditModel.files.push(interfaceDir);
                 EditModel.backups.push(interfaceDir + '.bk');
+
+                console.log('✅ Arquivo salvo em:', interfaceDir);
             }
         }
     }
 
     protected static async createMigration(toDo: string, modelPath: string, verbose = false){
-        const modelDir = fs.existsSync(path.resolve(process.env.PWD, modelPath)) 
-        ? path.resolve(process.env.PWD, modelPath) 
-        : modelPath;
+        const modelDir = fs.existsSync(modelPath) 
+        ? modelPath 
+        : path.resolve(process.env.PWD, modelPath);
 
         const array = modelDir.split('/');
         const modelName = array.pop().replace('.ts', '');
@@ -101,8 +106,7 @@ Esse é o model do nosso sistema:
 
         const moment = require("moment");
         const migrationDir = databaseFolder + `/${moment().format(`YYYYMMDDHHmmss`)}-adjusts-to-${modelName}.js`;
-        console.log('migrationDir', migrationDir);
-
+        
         const api = await GenerateMigration.send(
             `Crie uma migration que faça o seguinte com a tabela ${modelName}: ${toDo}`, 
             migrationDir, 
@@ -112,6 +116,7 @@ Esse é o model do nosso sistema:
         if(api){
             fs.writeFileSync(migrationDir, api.code[0]);
             EditModel.files.push(migrationDir);
+			console.log('✅ Arquivo salvo em:', migrationDir);
         }
     }
 
@@ -127,5 +132,32 @@ Esse é o model do nosso sistema:
 
         console.log('Gerando migration...');
         await EditModel.createMigration(toDo, saveToFile, verbose);
+
+        const answer = await inquirer.prompt([
+            {
+                type: "confirm",
+                name: "continue",
+                message: "Deseja salvar as alterações?",
+                default: true,
+            },
+        ]);
+
+        if (!answer.continue) {
+            for(const file of self.files){
+                fs.rmSync(file);
+            }
+
+            for(const file of self.backups){
+                fs.copyFileSync(file, file.replace('.bk', ''));
+            }
+
+            console.log("🙅‍♂️ Alterações revertidas");
+            process.exit(1);
+        }
+        
+        for(const file of self.backups){
+            fs.copyFileSync(file, file.replace('.bk', ''));
+        }
+        return true;
     }
 }
