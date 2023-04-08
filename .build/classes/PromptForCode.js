@@ -71,12 +71,13 @@ class PromptForCode {
             }
             const prompt = this.prompt.replace('{{CODE-OR-FILE}}', code).replace('{{SAVE-TO-FILE}}', saveToFileCode);
             const ask = `${this.ask}`.replace('{{CODE-OR-FILE}}', code).replace('{{SAVE-TO-FILE}}', saveToFileCode);
+            const api = new Api_1.default();
+            this.beforeSendCall(api, codeOrFile, saveToFile);
             if (verbose) {
+                console.log(api.context);
                 console.log(prompt.green);
                 console.log(ask.green);
             }
-            const api = new Api_1.default();
-            this.beforeSendCall(api, codeOrFile, saveToFile);
             const call = yield api.send([
                 { role: 'system', content: prompt },
                 { role: 'user', content: ask }
