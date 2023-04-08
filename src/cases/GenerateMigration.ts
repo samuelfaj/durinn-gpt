@@ -13,7 +13,7 @@ export default class GenerateMigration extends PromptForCode {
 	static async beforeSendCall(api: Api, codeOrFile: string, saveToFile ?: string): Promise<void> {
 		console.log(`Disparando beforeSendCall...`);
 
-		let file = '';
+		let file = path.resolve(process.env.PWD as string);
 
 		if(codeOrFile.substr(0,1) != '/'){
 			console.log(

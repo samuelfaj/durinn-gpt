@@ -43,7 +43,7 @@ class GenerateMigration extends PromptForCode_1.default {
     static beforeSendCall(api, codeOrFile, saveToFile) {
         return __awaiter(this, void 0, void 0, function* () {
             console.log(`Disparando beforeSendCall...`);
-            let file = '';
+            let file = path.resolve(process.env.PWD);
             if (codeOrFile.substr(0, 1) != '/') {
                 console.log('path.resolve(process.env.PWD as string, codeOrFile)', path.resolve(process.env.PWD, codeOrFile));
                 codeOrFile = path.resolve(process.env.PWD, codeOrFile);
