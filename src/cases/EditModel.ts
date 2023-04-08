@@ -2,6 +2,7 @@ import * as fs from "fs";
 import UpdateInterfaceFromModel from "./UpdateInterfaceFromModel";
 import PromptForCode from "../classes/PromptForCode";
 import DefaultBaseModel from "../defaults/Default.BaseModel";
+import GenerateMigration from "./GenerateMigration";
 
 const path = require('path');
 
@@ -44,8 +45,6 @@ Esse é o model do nosso sistema:
     }
 
     protected static async updateInterface(modelPath: string, verbose = false){
-        console.log('updateInterface', modelPath, verbose);
-
         const modelDir = fs.existsSync(modelPath) 
 				? modelPath 
 				: path.resolve(process.env.PWD, modelPath);
@@ -56,8 +55,6 @@ Esse é o model do nosso sistema:
         const interfaceDir = modelDir.replace('/' + modelName, '/../interfaces/models/' + modelName.replace('.ts', '.interface.ts'));
 
         if(fs.existsSync(interfaceDir)){
-            console.log('fs.readFileSync(interfaceDir).toString()', fs.readFileSync(modelDir).toString());
-
             const api = await UpdateInterfaceFromModel.send(
                 fs.readFileSync(modelDir).toString(), 
                 interfaceDir, 
@@ -74,14 +71,58 @@ Esse é o model do nosso sistema:
         }
     }
 
-	static async run(codeOrFile: string, saveToFile: string, verbose = false){
+    protected static async createMigration(toDo: string, modelPath: string, verbose = false){
+        const modelDir = fs.existsSync(modelPath) 
+        ? modelPath 
+        : path.resolve(process.env.PWD, modelPath);
+
+        const array = modelDir.split('/');
+        const modelName = array.pop().replace('.ts', '');
+
+        let i = 0;
+        let databaseFolder = null;
+
+        while(!databaseFolder && i < 100){
+            const files = fs.readdirSync(array.join('/'));
+
+            if(files.indexOf('database') > -1){
+                databaseFolder = array.join('/') + '/database';
+                break;
+            }
+
+            i++;
+        }
+
+        if(!databaseFolder || !fs.existsSync(databaseFolder)){
+            console.error(`❌ Pasta das migrations não encontrada`, databaseFolder);
+        }
+
+        const moment = require("moment");
+        const migrationDir = databaseFolder + `/${moment().format(`YYYYMMDDHHmmss`)}-adjusts-to-${modelName}.js`;
+
+        const api = await GenerateMigration.send(
+            `Crie uma migration que faça o seguinte com a tabela ${modelName}: ${toDo}`, 
+            migrationDir, 
+            true
+        );
+
+        if(api){
+            fs.writeFileSync(migrationDir, api.code[0]);
+            EditModel.files.push(migrationDir);
+        }
+    }
+
+	static async run(toDo: string, saveToFile: string, verbose = false){
 		const self = this;
 
         EditModel.files = [];
         console.log('Editando model...');
-        await EditModel.editModel(codeOrFile, saveToFile, verbose);
+        await EditModel.editModel(toDo, saveToFile, verbose);
 
         console.log('Editando interface...');
         await EditModel.updateInterface(saveToFile, verbose);
+
+        console.log('Gerando migration...');
+        await EditModel.createMigration(toDo, saveToFile, verbose);
     }
 }

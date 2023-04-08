@@ -6,9 +6,15 @@ export default class GenerateMigration extends PromptForCode {
 	static description = `Gera uma migration do Sequelize a partir das instruções que passamos, use o padrão camelCase e adicione comentários nas colunas sempre que possível. Exemplo: Crie uma migration adicionando o campo nome (string) na tabela Usuários`;
 
 	static async run(codeOrFile: string, saveToFile ?: string){
-		if(saveToFile){
+		if(saveToFile && saveToFile.substr(0, 1) != '/'){
+			const arr = saveToFile.split('/');
+			let filename = arr.pop();
+
 			const moment = require("moment");
-			saveToFile = `${moment().format(`YYYYMMDDHHmmss`)}-${saveToFile}`
+			filename = `${moment().format(`YYYYMMDDHHmmss`)}-${filename}`
+
+			arr.push(filename);
+			saveToFile = arr.join('/');
 		}
 
 		super.run(codeOrFile, saveToFile);
