@@ -80,9 +80,9 @@ class PromptForCode {
             const prompt = this.prompt.replace('{{CODE-OR-FILE}}', code).replace('{{SAVE-TO-FILE}}', saveToFileCode);
             const ask = `${this.ask}`.replace('{{CODE-OR-FILE}}', code).replace('{{SAVE-TO-FILE}}', saveToFileCode);
             const api = new Api_1.default();
-            this.beforeSendCall(api, codeOrFile, saveToFile);
+            yield this.beforeSendCall(api, codeOrFile, saveToFile);
             if (verbose) {
-                console.log(api.context);
+                console.log('Contexto:', api.context);
                 console.log(prompt.green);
                 console.log(ask.green);
             }

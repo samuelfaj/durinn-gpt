@@ -16,6 +16,7 @@ class Api {
     }
     addContext(context) {
         this.context = this.context.concat(context);
+        console.log(`Contexto adicionado:`, context);
         return this;
     }
     send(messages) {

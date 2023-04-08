@@ -5,6 +5,7 @@ export default class Api {
 
 	addContext(context: Messages){
 		this.context = this.context.concat(context);
+		console.log(`Contexto adicionado:`, context);
 		return this;
 	}
 
