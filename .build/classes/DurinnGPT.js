@@ -10,6 +10,7 @@ const GenerateModelFromMigration_1 = __importDefault(require("../cases/GenerateM
 const OptimizeCode_1 = __importDefault(require("../cases/OptimizeCode"));
 const UpdateModelFromMigration_1 = __importDefault(require("../cases/UpdateModelFromMigration"));
 const UpdateInterfaceFromModel_1 = __importDefault(require("../cases/UpdateInterfaceFromModel"));
+const EditModel_1 = __importDefault(require("../cases/EditModel"));
 require('colors');
 class DurinnGPT {
     /**
@@ -92,7 +93,8 @@ class DurinnGPT {
             GenerateModelFromMigration: GenerateModelFromMigration_1.default,
             OptimizeCode: OptimizeCode_1.default,
             UpdateModelFromMigration: UpdateModelFromMigration_1.default,
-            UpdateInterfaceFromModel: UpdateInterfaceFromModel_1.default
+            UpdateInterfaceFromModel: UpdateInterfaceFromModel_1.default,
+            EditModel: EditModel_1.default
         };
     }
     static printUsage() {

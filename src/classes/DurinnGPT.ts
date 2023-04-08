@@ -5,6 +5,7 @@ import GenerateModelFromMigration from "../cases/GenerateModelFromMigration";
 import OptimizeCode from "../cases/OptimizeCode";
 import UpdateModelFromMigration from "../cases/UpdateModelFromMigration";
 import UpdateInterfaceFromModel from "../cases/UpdateInterfaceFromModel";
+import EditModel from "../cases/EditModel";
 
 import colors from "colors";
 require('colors');
@@ -102,7 +103,8 @@ export default class DurinnGPT {
 			GenerateModelFromMigration,
 			OptimizeCode,
 			UpdateModelFromMigration,
-			UpdateInterfaceFromModel
+			UpdateInterfaceFromModel,
+			EditModel
 		};
 	}
 	
