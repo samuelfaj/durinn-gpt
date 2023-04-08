@@ -113,6 +113,7 @@ Esse é o model do nosso sistema:
             }
             const moment = require("moment");
             const migrationDir = databaseFolder + `/${moment().format(`YYYYMMDDHHmmss`)}-adjusts-to-${modelName}.js`;
+            console.log('migrationDir', migrationDir);
             const api = yield GenerateMigration_1.default.send(`Crie uma migration que faça o seguinte com a tabela ${modelName}: ${toDo}`, migrationDir, true);
             if (api) {
                 fs.writeFileSync(migrationDir, api.code[0]);
