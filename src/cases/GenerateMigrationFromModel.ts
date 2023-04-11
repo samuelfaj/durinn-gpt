@@ -25,7 +25,7 @@ E essa é a migration que gerou esse model:
 ${DefaultMigration}
 \`\`\``;
 	
-	static ask = `Com base no modelo acima, gere uma sequelize ORM migration à partir deste model, use o padrão camelCase e adicione comentários nas colunas sempre que possível. Você deve responder em markdown apenas o novo código e entre (\`\`\`). Sem explicações. Apenas o novo código::`;
+	static ask = `Com base no modelo acima, gere uma sequelize ORM migration à partir deste model, use o padrão camelCase e adicione comentários nas colunas sempre que possível. Você deve responder em markdown apenas o novo código e entre (\`\`\`). Sem explicações. Apenas o novo código: \n\`\`\`\n{{CODE-OR-FILE}}\`\`\``;
 	static description = `Gera uma migration a partir do código de um model que passamos.`;
 
 	static async run(codeOrFile: string, saveToFile ?: string){

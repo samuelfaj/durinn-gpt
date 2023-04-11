@@ -50,6 +50,6 @@ E essa é a migration que gerou esse model:
 \`\`\`
 ${Default_Migration_1.default}
 \`\`\``;
-GenerateMigrationFromModel.ask = `Com base no modelo acima, gere uma sequelize ORM migration à partir deste model, use o padrão camelCase e adicione comentários nas colunas sempre que possível. Você deve responder em markdown apenas o novo código e entre (\`\`\`). Sem explicações. Apenas o novo código::`;
+GenerateMigrationFromModel.ask = `Com base no modelo acima, gere uma sequelize ORM migration à partir deste model, use o padrão camelCase e adicione comentários nas colunas sempre que possível. Você deve responder em markdown apenas o novo código e entre (\`\`\`). Sem explicações. Apenas o novo código: \n\`\`\`\n{{CODE-OR-FILE}}\`\`\``;
 GenerateMigrationFromModel.description = `Gera uma migration a partir do código de um model que passamos.`;
 exports.default = GenerateMigrationFromModel;
