@@ -43,6 +43,8 @@ Sua missão é criar uma migration usando a biblioteca Sequelize ORM. Essa migra
 			saveToFile = arr.join('/');
 		}
 
+		super.ask = this.ask;
+		super.description = this.description;
 		super.run(codeOrFile, saveToFile, verbose);
 	}
 }

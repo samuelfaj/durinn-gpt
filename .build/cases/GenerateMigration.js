@@ -24,7 +24,9 @@ class GenerateMigration extends PromptForCode_1.default {
     }
     static run(codeOrFile, saveToFile, verbose = false) {
         const _super = Object.create(null, {
-            run: { get: () => super.run }
+            ask: { get: () => super.ask, set: v => super.ask = v },
+            description: { get: () => super.description, set: v => super.description = v },
+            run: { get: () => super.run, set: v => super.run = v }
         });
         return __awaiter(this, void 0, void 0, function* () {
             if (saveToFile && saveToFile.substr(0, 1) != '/') {
@@ -35,6 +37,8 @@ class GenerateMigration extends PromptForCode_1.default {
                 arr.push(filename);
                 saveToFile = arr.join('/');
             }
+            _super.ask = this.ask;
+            _super.description = this.description;
             _super.run.call(this, codeOrFile, saveToFile, verbose);
         });
     }
