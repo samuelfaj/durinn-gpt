@@ -16,10 +16,24 @@ const PromptForCode_1 = __importDefault(require("../classes/PromptForCode"));
 const Default_Migration_1 = __importDefault(require("../defaults/Default.Migration"));
 const Default_BaseModel_1 = __importDefault(require("../defaults/Default.BaseModel"));
 class GenerateMigration extends PromptForCode_1.default {
-    static beforeSendCall(api, codeOrFile, saveToFile) {
+    // static async beforeSendCall(api: Api, codeOrFile: string, saveToFile ?: string): Promise<void> {
+    // api.addContext(await Intelligence.getTsConfig())
+    // api.addContext(await Intelligence.getListOfFiles())
+    // }
+    static run(codeOrFile, saveToFile, verbose = false) {
+        const _super = Object.create(null, {
+            run: { get: () => super.run }
+        });
         return __awaiter(this, void 0, void 0, function* () {
-            // api.addContext(await Intelligence.getTsConfig())
-            // api.addContext(await Intelligence.getListOfFiles())
+            if (saveToFile && saveToFile.substr(0, 1) != '/') {
+                const arr = saveToFile.split('/');
+                let filename = arr.pop();
+                const moment = require("moment");
+                filename = `${moment().format(`YYYYMMDDHHmmss`)}-${filename}`;
+                arr.push(filename);
+                saveToFile = arr.join('/');
+            }
+            return _super.run.call(this, codeOrFile, saveToFile, verbose);
         });
     }
 }

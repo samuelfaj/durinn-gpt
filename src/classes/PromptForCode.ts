@@ -40,7 +40,7 @@ export default class PromptForCode {
 			codeOrFile = path.resolve(process.cwd(), codeOrFile);
 		}
 
-		if(fs.existsSync(path.resolve(process.cwd(), saveToFile))){
+		if(saveToFile && fs.existsSync(path.resolve(process.cwd(), saveToFile))){
 			saveToFile = path.resolve(process.cwd(), saveToFile);
 		}
 
@@ -53,11 +53,8 @@ export default class PromptForCode {
 			return false;
 		}
 
-		console.log('this.prompt', (this.constructor as any).prompt);
-		console.log('this.ask', (this.constructor as any).ask);
-
-		const prompt = this.prompt.replace('{{CODE-OR-FILE}}', code).replace('{{SAVE-TO-FILE}}', saveToFileCode);
-		const ask = `${this.ask}`.replace('{{CODE-OR-FILE}}', code).replace('{{SAVE-TO-FILE}}', saveToFileCode);
+		const prompt = self.prompt.replace('{{CODE-OR-FILE}}', code).replace('{{SAVE-TO-FILE}}', saveToFileCode);
+		const ask = `${self.ask}`.replace('{{CODE-OR-FILE}}', code).replace('{{SAVE-TO-FILE}}', saveToFileCode);
 		
 		const api = new Api();
 		await this.beforeSendCall(api, codeOrFile, saveToFile);
@@ -66,6 +63,10 @@ export default class PromptForCode {
 			console.log('Contexto:', api.context);
 			console.log('Prompt:', (prompt as any).green);
 			console.log('Ask:', (ask as any).green);
+		}
+
+		if(!prompt && !ask){
+			throw new Error('❌ Nenhum prompt ou ask informados');
 		}
 
 		const call = await api.send([
@@ -83,7 +84,7 @@ export default class PromptForCode {
 	static async run(codeOrFile: string, saveToFile ?: string, verbose = false): Promise<any>{
 		const self = this;
 		
-		const api = await PromptForCode.send(codeOrFile, saveToFile, verbose);
+		const api = await self.send(codeOrFile, saveToFile, verbose);
 
 		if(!api){
 			return false;

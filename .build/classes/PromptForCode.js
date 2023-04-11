@@ -65,7 +65,7 @@ class PromptForCode {
             if (fs.existsSync(path.resolve(process.cwd(), codeOrFile))) {
                 codeOrFile = path.resolve(process.cwd(), codeOrFile);
             }
-            if (fs.existsSync(path.resolve(process.cwd(), saveToFile))) {
+            if (saveToFile && fs.existsSync(path.resolve(process.cwd(), saveToFile))) {
                 saveToFile = path.resolve(process.cwd(), saveToFile);
             }
             let code = PromptForCode.getCodeOrFile(codeOrFile);
@@ -75,16 +75,17 @@ class PromptForCode {
                 console.log(`Usage: npm run durinn-gpt -- ${DurinnGPT_1.default.pascalToKebabCase(self.name)} <CODE> <FILE-TO-SAVE>`);
                 return false;
             }
-            console.log('this.prompt', this.constructor.prompt);
-            console.log('this.ask', this.constructor.ask);
-            const prompt = this.prompt.replace('{{CODE-OR-FILE}}', code).replace('{{SAVE-TO-FILE}}', saveToFileCode);
-            const ask = `${this.ask}`.replace('{{CODE-OR-FILE}}', code).replace('{{SAVE-TO-FILE}}', saveToFileCode);
+            const prompt = self.prompt.replace('{{CODE-OR-FILE}}', code).replace('{{SAVE-TO-FILE}}', saveToFileCode);
+            const ask = `${self.ask}`.replace('{{CODE-OR-FILE}}', code).replace('{{SAVE-TO-FILE}}', saveToFileCode);
             const api = new Api_1.default();
             yield this.beforeSendCall(api, codeOrFile, saveToFile);
             if (verbose) {
                 console.log('Contexto:', api.context);
                 console.log('Prompt:', prompt.green);
                 console.log('Ask:', ask.green);
+            }
+            if (!prompt && !ask) {
+                throw new Error('❌ Nenhum prompt ou ask informados');
             }
             const call = yield api.send([
                 { role: 'system', content: prompt },
@@ -99,7 +100,7 @@ class PromptForCode {
     static run(codeOrFile, saveToFile, verbose = false) {
         return __awaiter(this, void 0, void 0, function* () {
             const self = this;
-            const api = yield PromptForCode.send(codeOrFile, saveToFile, verbose);
+            const api = yield self.send(codeOrFile, saveToFile, verbose);
             if (!api) {
                 return false;
             }
