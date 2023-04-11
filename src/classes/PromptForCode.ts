@@ -53,8 +53,8 @@ export default class PromptForCode {
 			return false;
 		}
 
-		console.log('this.prompt', this.prompt);
-		console.log('this.ask', this.ask);
+		console.log('this.prompt', (this.constructor as any).prompt);
+		console.log('this.ask', (this.constructor as any).ask);
 
 		const prompt = this.prompt.replace('{{CODE-OR-FILE}}', code).replace('{{SAVE-TO-FILE}}', saveToFileCode);
 		const ask = `${this.ask}`.replace('{{CODE-OR-FILE}}', code).replace('{{SAVE-TO-FILE}}', saveToFileCode);
