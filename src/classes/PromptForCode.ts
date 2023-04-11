@@ -38,13 +38,14 @@ export default class PromptForCode {
 
 		if(fs.existsSync(path.resolve(process.cwd(), codeOrFile))){
 			codeOrFile = path.resolve(process.cwd(), codeOrFile);
-			console.log('codeOrFile', codeOrFile);
 		}
 
 		if(fs.existsSync(path.resolve(process.cwd(), saveToFile))){
 			saveToFile = path.resolve(process.cwd(), saveToFile);
-			console.log('saveToFile', saveToFile);
 		}
+		
+		console.log('codeOrFile', codeOrFile);
+		console.log('saveToFile', saveToFile);
 
 		let code = PromptForCode.getCodeOrFile(codeOrFile);
 		let saveToFileCode = saveToFile ? PromptForCode.getCodeOrFile(saveToFile) : '';
