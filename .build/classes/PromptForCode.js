@@ -75,6 +75,8 @@ class PromptForCode {
                 console.log(`Usage: npm run durinn-gpt -- ${DurinnGPT_1.default.pascalToKebabCase(self.name)} <CODE> <FILE-TO-SAVE>`);
                 return false;
             }
+            console.log('this.prompt', this.prompt);
+            console.log('this.ask', this.ask);
             const prompt = this.prompt.replace('{{CODE-OR-FILE}}', code).replace('{{SAVE-TO-FILE}}', saveToFileCode);
             const ask = `${this.ask}`.replace('{{CODE-OR-FILE}}', code).replace('{{SAVE-TO-FILE}}', saveToFileCode);
             const api = new Api_1.default();
