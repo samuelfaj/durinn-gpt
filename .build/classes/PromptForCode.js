@@ -111,10 +111,10 @@ class PromptForCode {
                 if (saveToFile.substr(0, 1) != '/') {
                     saveToFile = path.resolve(process.cwd(), saveToFile);
                 }
-                let creating_from_scratch = false;
+                let creating_from_scratch = true;
                 if (fs.existsSync(saveToFile)) {
                     fs.copyFileSync(saveToFile, saveToFile + '.bk');
-                    creating_from_scratch = true;
+                    creating_from_scratch = false;
                 }
                 fs.writeFileSync(saveToFile, api.code[0]);
                 console.log('✅ Arquivo salvo em:', saveToFile);

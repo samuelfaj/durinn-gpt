@@ -99,11 +99,11 @@ export default class PromptForCode {
 				saveToFile = path.resolve(process.cwd(), saveToFile);
 			}
 			
-			let creating_from_scratch = false;
+			let creating_from_scratch = true;
 
 			if(fs.existsSync(saveToFile as string)){
 				fs.copyFileSync(saveToFile as string, saveToFile + '.bk');
-				creating_from_scratch = true;
+				creating_from_scratch = false;
 			}
 
 			fs.writeFileSync(saveToFile as string, api.code[0]);
