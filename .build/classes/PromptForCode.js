@@ -68,8 +68,6 @@ class PromptForCode {
             if (fs.existsSync(path.resolve(process.cwd(), saveToFile))) {
                 saveToFile = path.resolve(process.cwd(), saveToFile);
             }
-            console.log('codeOrFile', codeOrFile);
-            console.log('saveToFile', saveToFile);
             let code = PromptForCode.getCodeOrFile(codeOrFile);
             let saveToFileCode = saveToFile ? PromptForCode.getCodeOrFile(saveToFile) : '';
             if (!code) {
@@ -83,8 +81,8 @@ class PromptForCode {
             yield this.beforeSendCall(api, codeOrFile, saveToFile);
             if (verbose) {
                 console.log('Contexto:', api.context);
-                console.log(prompt.green);
-                console.log(ask.green);
+                console.log('Prompt:', prompt.green);
+                console.log('Ask:', ask.green);
             }
             const call = yield api.send([
                 { role: 'system', content: prompt },

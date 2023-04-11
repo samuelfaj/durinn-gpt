@@ -43,9 +43,6 @@ export default class PromptForCode {
 		if(fs.existsSync(path.resolve(process.cwd(), saveToFile))){
 			saveToFile = path.resolve(process.cwd(), saveToFile);
 		}
-		
-		console.log('codeOrFile', codeOrFile);
-		console.log('saveToFile', saveToFile);
 
 		let code = PromptForCode.getCodeOrFile(codeOrFile);
 		let saveToFileCode = saveToFile ? PromptForCode.getCodeOrFile(saveToFile) : '';
@@ -64,8 +61,8 @@ export default class PromptForCode {
 
 		if(verbose){
 			console.log('Contexto:', api.context);
-			console.log((prompt as any).green);
-			console.log((ask as any).green);
+			console.log('Prompt:', (prompt as any).green);
+			console.log('Ask:', (ask as any).green);
 		}
 
 		const call = await api.send([
