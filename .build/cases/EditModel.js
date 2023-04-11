@@ -105,7 +105,7 @@ Esse é o model do nosso sistema:
             while (!databaseFolder && i < 100) {
                 const files = fs.readdirSync(array.join('/'));
                 if (files.indexOf('database') > -1) {
-                    databaseFolder = array.join('/') + '/database';
+                    databaseFolder = array.join('/') + '/database/migrations';
                     break;
                 }
                 array.pop();

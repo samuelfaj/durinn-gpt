@@ -13,6 +13,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const PromptForCode_1 = __importDefault(require("../classes/PromptForCode"));
+const Default_Migration_1 = __importDefault(require("src/defaults/Default.Migration"));
+const Default_BaseModel_1 = __importDefault(require("src/defaults/Default.BaseModel"));
 class GenerateMigration extends PromptForCode_1.default {
     static beforeSendCall(api, codeOrFile, saveToFile) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -37,7 +39,22 @@ class GenerateMigration extends PromptForCode_1.default {
         });
     }
 }
-GenerateMigration.prompt = `Sua missão é criar uma migration usando a biblioteca Sequelize ORM. Essa migration deve usar transaction e você deve responder em markdown apenas o código novo entre (\`\`\`). Sem explicações.`;
+GenerateMigration.prompt = `
+Vou fornecer alguns exemplos para que você grave o contexto:
+
+Esse é um exemplo de classe padrão do nosso sistema:
+
+\`\`\`
+${Default_BaseModel_1.default}
+\`\`\`
+
+Esse é um exemplo de migration do nosso sistema:
+
+\`\`\`
+${Default_Migration_1.default}
+\`\`\`
+
+Sua missão é criar uma migration usando a biblioteca Sequelize ORM. Essa migration deve usar transaction e você deve responder em markdown apenas o código novo entre (\`\`\`). Sem explicações.`;
 GenerateMigration.ask = `{{CODE-OR-FILE}}`;
 GenerateMigration.description = `Gera uma migration do Sequelize a partir das instruções que passamos, use o padrão camelCase e adicione comentários nas colunas sempre que possível. Exemplo: Crie uma migration adicionando o campo nome (string) na tabela Usuários`;
 exports.default = GenerateMigration;

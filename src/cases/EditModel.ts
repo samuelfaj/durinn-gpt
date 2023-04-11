@@ -93,7 +93,7 @@ Esse é o model do nosso sistema:
             const files = fs.readdirSync(array.join('/'));
 
             if(files.indexOf('database') > -1){
-                databaseFolder = array.join('/') + '/database';
+                databaseFolder = array.join('/') + '/database/migrations';
                 break;
             }
 

@@ -1,10 +1,28 @@
 import PromptForCode from "../classes/PromptForCode";
 
 import Api from "../classes/Api";
-import Intelligence from "../classes/Intelligence";
+import DefaultMigration from "src/defaults/Default.Migration";
+import DefaultBaseModel from "src/defaults/Default.BaseModel";
 
 export default class GenerateMigration extends PromptForCode {
-	static prompt = `Sua missão é criar uma migration usando a biblioteca Sequelize ORM. Essa migration deve usar transaction e você deve responder em markdown apenas o código novo entre (\`\`\`). Sem explicações.`;
+
+	static prompt = `
+Vou fornecer alguns exemplos para que você grave o contexto:
+
+Esse é um exemplo de classe padrão do nosso sistema:
+
+\`\`\`
+${DefaultBaseModel}
+\`\`\`
+
+Esse é um exemplo de migration do nosso sistema:
+
+\`\`\`
+${DefaultMigration}
+\`\`\`
+
+Sua missão é criar uma migration usando a biblioteca Sequelize ORM. Essa migration deve usar transaction e você deve responder em markdown apenas o código novo entre (\`\`\`). Sem explicações.`;
+	
 	static ask = `{{CODE-OR-FILE}}`;
 	static description = `Gera uma migration do Sequelize a partir das instruções que passamos, use o padrão camelCase e adicione comentários nas colunas sempre que possível. Exemplo: Crie uma migration adicionando o campo nome (string) na tabela Usuários`;
 
