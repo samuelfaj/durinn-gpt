@@ -13,8 +13,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const PromptForCode_1 = __importDefault(require("../classes/PromptForCode"));
-const Default_Migration_1 = __importDefault(require("src/defaults/Default.Migration"));
-const Default_BaseModel_1 = __importDefault(require("src/defaults/Default.BaseModel"));
+const Default_Migration_1 = __importDefault(require("../defaults/Default.Migration"));
+const Default_BaseModel_1 = __importDefault(require("../defaults/Default.BaseModel"));
 class GenerateMigration extends PromptForCode_1.default {
     static beforeSendCall(api, codeOrFile, saveToFile) {
         return __awaiter(this, void 0, void 0, function* () {
