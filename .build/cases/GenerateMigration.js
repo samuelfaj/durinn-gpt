@@ -22,26 +22,6 @@ class GenerateMigration extends PromptForCode_1.default {
             // api.addContext(await Intelligence.getListOfFiles())
         });
     }
-    static run(codeOrFile, saveToFile, verbose = false) {
-        const _super = Object.create(null, {
-            ask: { get: () => super.ask, set: v => super.ask = v },
-            description: { get: () => super.description, set: v => super.description = v },
-            run: { get: () => super.run, set: v => super.run = v }
-        });
-        return __awaiter(this, void 0, void 0, function* () {
-            if (saveToFile && saveToFile.substr(0, 1) != '/') {
-                const arr = saveToFile.split('/');
-                let filename = arr.pop();
-                const moment = require("moment");
-                filename = `${moment().format(`YYYYMMDDHHmmss`)}-${filename}`;
-                arr.push(filename);
-                saveToFile = arr.join('/');
-            }
-            _super.ask = this.ask;
-            _super.description = this.description;
-            _super.run.call(this, codeOrFile, saveToFile, verbose);
-        });
-    }
 }
 GenerateMigration.prompt = `
 Vou fornecer alguns exemplos para que você grave o contexto:

@@ -31,20 +31,20 @@ Sua missão é criar uma migration usando a biblioteca Sequelize ORM. Essa migra
 		// api.addContext(await Intelligence.getListOfFiles())
 	}
 
-	static async run(codeOrFile: string, saveToFile ?: string, verbose = false){
-		if(saveToFile && saveToFile.substr(0, 1) != '/'){
-			const arr = saveToFile.split('/');
-			let filename = arr.pop();
+	// static async run(codeOrFile: string, saveToFile ?: string, verbose = false){
+	// 	if(saveToFile && saveToFile.substr(0, 1) != '/'){
+	// 		const arr = saveToFile.split('/');
+	// 		let filename = arr.pop();
 
-			const moment = require("moment");
-			filename = `${moment().format(`YYYYMMDDHHmmss`)}-${filename}`
+	// 		const moment = require("moment");
+	// 		filename = `${moment().format(`YYYYMMDDHHmmss`)}-${filename}`
 
-			arr.push(filename);
-			saveToFile = arr.join('/');
-		}
+	// 		arr.push(filename);
+	// 		saveToFile = arr.join('/');
+	// 	}
 
-		super.ask = this.ask;
-		super.description = this.description;
-		super.run(codeOrFile, saveToFile, verbose);
-	}
+	// 	super.ask = this.ask;
+	// 	super.description = this.description;
+	// 	super.run(codeOrFile, saveToFile, verbose);
+	// }
 }
