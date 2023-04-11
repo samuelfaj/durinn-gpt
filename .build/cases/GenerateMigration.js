@@ -22,7 +22,7 @@ class GenerateMigration extends PromptForCode_1.default {
             // api.addContext(await Intelligence.getListOfFiles())
         });
     }
-    static run(codeOrFile, saveToFile) {
+    static run(codeOrFile, saveToFile, verbose = false) {
         const _super = Object.create(null, {
             run: { get: () => super.run }
         });
@@ -35,7 +35,7 @@ class GenerateMigration extends PromptForCode_1.default {
                 arr.push(filename);
                 saveToFile = arr.join('/');
             }
-            _super.run.call(this, codeOrFile, saveToFile);
+            _super.run.call(this, codeOrFile, saveToFile, verbose);
         });
     }
 }

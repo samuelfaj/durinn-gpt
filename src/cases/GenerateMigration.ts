@@ -31,7 +31,7 @@ Sua missão é criar uma migration usando a biblioteca Sequelize ORM. Essa migra
 		// api.addContext(await Intelligence.getListOfFiles())
 	}
 
-	static async run(codeOrFile: string, saveToFile ?: string){
+	static async run(codeOrFile: string, saveToFile ?: string, verbose = false){
 		if(saveToFile && saveToFile.substr(0, 1) != '/'){
 			const arr = saveToFile.split('/');
 			let filename = arr.pop();
@@ -43,6 +43,6 @@ Sua missão é criar uma migration usando a biblioteca Sequelize ORM. Essa migra
 			saveToFile = arr.join('/');
 		}
 
-		super.run(codeOrFile, saveToFile);
+		super.run(codeOrFile, saveToFile, verbose);
 	}
 }
