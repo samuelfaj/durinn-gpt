@@ -111,7 +111,11 @@ class PromptForCode {
                 if (saveToFile.substr(0, 1) != '/') {
                     saveToFile = path.resolve(process.cwd(), saveToFile);
                 }
-                fs.copyFileSync(saveToFile, saveToFile + '.bk');
+                let creating_from_scratch = false;
+                if (fs.existsSync(saveToFile)) {
+                    fs.copyFileSync(saveToFile, saveToFile + '.bk');
+                    creating_from_scratch = true;
+                }
                 fs.writeFileSync(saveToFile, api.code[0]);
                 console.log('✅ Arquivo salvo em:', saveToFile);
                 const answer = yield inquirer.prompt([
@@ -123,8 +127,13 @@ class PromptForCode {
                     },
                 ]);
                 if (!answer.continue) {
-                    fs.copyFileSync(saveToFile + '.bk', saveToFile);
-                    fs.rmSync(saveToFile + '.bk');
+                    if (creating_from_scratch) {
+                        fs.rmSync(saveToFile);
+                    }
+                    else {
+                        fs.copyFileSync(saveToFile + '.bk', saveToFile);
+                        fs.rmSync(saveToFile + '.bk');
+                    }
                     console.log("🙅‍♂️ Alterações revertidas");
                     process.exit(1);
                 }

@@ -98,8 +98,14 @@ export default class PromptForCode {
 			if(saveToFile.substr(0,1) != '/'){
 				saveToFile = path.resolve(process.cwd(), saveToFile);
 			}
+			
+			let creating_from_scratch = false;
 
-			fs.copyFileSync(saveToFile as string, saveToFile + '.bk');
+			if(fs.existsSync(saveToFile as string)){
+				fs.copyFileSync(saveToFile as string, saveToFile + '.bk');
+				creating_from_scratch = true;
+			}
+
 			fs.writeFileSync(saveToFile as string, api.code[0]);
 
 			console.log('✅ Arquivo salvo em:', saveToFile);
@@ -114,8 +120,13 @@ export default class PromptForCode {
 			]);
 
 			if (!answer.continue) {
-				fs.copyFileSync(saveToFile + '.bk', saveToFile as string);
-				fs.rmSync(saveToFile + '.bk');
+				if(creating_from_scratch){
+					fs.rmSync(saveToFile as string);
+				}else{
+					fs.copyFileSync(saveToFile + '.bk', saveToFile as string);
+					fs.rmSync(saveToFile + '.bk');
+				}
+
 				console.log("🙅‍♂️ Alterações revertidas");
 				process.exit(1);
 			}
