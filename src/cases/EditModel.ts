@@ -30,9 +30,9 @@ Esse é o model do nosso sistema:
             
         EditModel.ask = `Com base no model acima, faça as atualizações requisitadas abaixo. Você deve responder em markdown apenas o código e entre (\`\`\`). Sem explicações.\n Faça o seguinte: "{{CODE-OR-FILE}}"`;
 
-        const dir = fs.existsSync(saveToFile) 
-				? saveToFile 
-				: path.resolve(process.cwd(), saveToFile);
+        const dir = fs.existsSync(path.resolve(process.cwd(), saveToFile)) 
+        ? path.resolve(process.cwd(), saveToFile)  
+        : saveToFile;
 
         const api = await EditModel.send(codeOrFile, saveToFile, verbose);
 
@@ -48,9 +48,9 @@ Esse é o model do nosso sistema:
     }
 
     protected static async updateInterface(modelPath: string, verbose = false){
-        const modelDir = fs.existsSync(modelPath) 
-				? modelPath 
-				: path.resolve(process.cwd(), modelPath);
+        const modelDir = fs.existsSync(path.resolve(process.cwd(), modelPath)) 
+        ? path.resolve(process.cwd(), modelPath)  
+        : modelPath;
 
         const array = modelDir.split('/');
         const modelName = array.pop();

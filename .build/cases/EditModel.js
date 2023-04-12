@@ -59,9 +59,9 @@ Esse é o model do nosso sistema:
 {{SAVE-TO-FILE}}
 \`\`\``;
             EditModel.ask = `Com base no model acima, faça as atualizações requisitadas abaixo. Você deve responder em markdown apenas o código e entre (\`\`\`). Sem explicações.\n Faça o seguinte: "{{CODE-OR-FILE}}"`;
-            const dir = fs.existsSync(saveToFile)
-                ? saveToFile
-                : path.resolve(process.cwd(), saveToFile);
+            const dir = fs.existsSync(path.resolve(process.cwd(), saveToFile))
+                ? path.resolve(process.cwd(), saveToFile)
+                : saveToFile;
             const api = yield EditModel.send(codeOrFile, saveToFile, verbose);
             if (api) {
                 fs.copyFileSync(dir, dir + '.bk');
@@ -74,9 +74,9 @@ Esse é o model do nosso sistema:
     }
     static updateInterface(modelPath, verbose = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const modelDir = fs.existsSync(modelPath)
-                ? modelPath
-                : path.resolve(process.cwd(), modelPath);
+            const modelDir = fs.existsSync(path.resolve(process.cwd(), modelPath))
+                ? path.resolve(process.cwd(), modelPath)
+                : modelPath;
             const array = modelDir.split('/');
             const modelName = array.pop();
             const interfaceDir = modelDir.replace('/' + modelName, '/../interfaces/models/' + modelName.replace('.ts', '.interface.ts'));
