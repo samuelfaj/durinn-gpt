@@ -28,7 +28,7 @@ Esse é o model do nosso sistema:
 {{SAVE-TO-FILE}}
 \`\`\``;
             
-        EditModel.ask = `Com base no model acima, faça as atualizações requisitadas abaixo. Você deve responder em markdown apenas o código e entre (\`\`\`). Sem explicações.\n Faça o seguinte: "{{CODE-OR-FILE}}"`;
+        EditModel.ask = `Com base no model acima, faça as atualizações requisitadas abaixo. Você deve responder em markdown como ficou o código atualizado e entre (\`\`\`). Sem explicações.\n Faça o seguinte: "{{CODE-OR-FILE}}"`;
 
         const dir = fs.existsSync(path.resolve(process.cwd(), saveToFile)) 
         ? path.resolve(process.cwd(), saveToFile)  
