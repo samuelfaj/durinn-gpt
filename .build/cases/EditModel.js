@@ -80,6 +80,7 @@ Esse é o model do nosso sistema:
             const array = modelDir.split('/');
             const modelName = array.pop();
             const interfaceDir = modelDir.replace('/' + modelName, '/../interfaces/models/' + modelName.replace('.ts', '.interface.ts'));
+            console.log('interfaceDir', interfaceDir);
             if (fs.existsSync(interfaceDir)) {
                 const api = yield UpdateInterfaceFromModel_1.default.send(fs.readFileSync(modelDir).toString(), interfaceDir, verbose);
                 if (api) {
