@@ -8,6 +8,7 @@ import UpdateInterfaceFromModel from "../cases/UpdateInterfaceFromModel";
 import EditModel from "../cases/EditModel";
 import VoiceToText from "../cases/VoiceToText";
 import VoiceToTrello from "../cases/VoiceToTrello";
+import TextToTrello from "../cases/TextToTrello";
 
 import colors from "colors";
 require('colors');
@@ -108,7 +109,8 @@ export default class DurinnGPT {
 			UpdateInterfaceFromModel,
 			EditModel,
 			VoiceToText,
-			VoiceToTrello
+			VoiceToTrello,
+			TextToTrello
 		};
 	}
 	

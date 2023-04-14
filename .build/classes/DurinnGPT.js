@@ -13,6 +13,7 @@ const UpdateInterfaceFromModel_1 = __importDefault(require("../cases/UpdateInter
 const EditModel_1 = __importDefault(require("../cases/EditModel"));
 const VoiceToText_1 = __importDefault(require("../cases/VoiceToText"));
 const VoiceToTrello_1 = __importDefault(require("../cases/VoiceToTrello"));
+const TextToTrello_1 = __importDefault(require("../cases/TextToTrello"));
 require('colors');
 class DurinnGPT {
     /**
@@ -98,7 +99,8 @@ class DurinnGPT {
             UpdateInterfaceFromModel: UpdateInterfaceFromModel_1.default,
             EditModel: EditModel_1.default,
             VoiceToText: VoiceToText_1.default,
-            VoiceToTrello: VoiceToTrello_1.default
+            VoiceToTrello: VoiceToTrello_1.default,
+            TextToTrello: TextToTrello_1.default
         };
     }
     static printUsage() {
