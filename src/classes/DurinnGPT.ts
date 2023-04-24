@@ -9,6 +9,7 @@ import EditModel from "../cases/EditModel";
 import VoiceToText from "../cases/VoiceToText";
 import VoiceToTrello from "../cases/VoiceToTrello";
 import TextToTrello from "../cases/TextToTrello";
+import GenerateTranslations from "../cases/GenerateTranslations";
 
 import colors from "colors";
 require('colors');
@@ -110,7 +111,8 @@ export default class DurinnGPT {
 			EditModel,
 			VoiceToText,
 			VoiceToTrello,
-			TextToTrello
+			TextToTrello,
+			GenerateTranslations
 		};
 	}
 	
