@@ -51,7 +51,7 @@ Preencha:
         return columnNames;
       }
 
-	static async run(codeOrFile: string, saveToFile ?: string, verbose = false){
+	static async send(codeOrFile: string, saveToFile ?: string, verbose = false){
         saveToFile = codeOrFile;
 
 		if(fs.existsSync(path.resolve(process.cwd(), codeOrFile))){
@@ -68,16 +68,31 @@ Preencha:
 			verbose
 		);
 
-		console.log('api', api);
-
-		if(api){
-			this.save(codeOrFile, code, api.code[0])
-		}else{
-			console.error(`Nenhum código recebido`)
+		if(!api){
+			throw new Error(`Nenhum código encontrado`);
 		}
+
+		const newCode = this.apply(codeOrFile, code, api.code[0])
+		this.save(path, code, newCode);
+		return newCode;
+
 	}
 
-	static async save(path: string, code: string, newCode: string){
+	static async run(codeOrFile: string, saveToFile ?: string, verbose = false){
+        saveToFile = codeOrFile;
+
+		if(fs.existsSync(path.resolve(process.cwd(), codeOrFile))){
+			codeOrFile = path.resolve(process.cwd(), codeOrFile);
+		}
+
+		const code = fs.readFileSync(codeOrFile).toString();
+		const newCode = await this.send(codeOrFile, saveToFile, verbose);
+
+		this.save(path, code, newCode);
+		return newCode;
+	}
+
+	static apply(path: string, code: string, newCode: string){
 		function findIndexOfNext(str: string, word: string, charSequence: string) {
 			const wordIndex = str.indexOf(word);
 			const charIndex = str.indexOf(charSequence, wordIndex);
@@ -118,8 +133,13 @@ Preencha:
 			code = code.substring(0, indexOf + 1) +  "\n" + sensitiveColumns + code.substring(indexOf + 1);
 		}
 
-		fs.writeFileSync(path + '.bk', originalCode);
-		fs.writeFileSync(path, code);
+		return code;
+	}
+
+	static async save(path: string, code: string, newCode: string){
+
+		fs.writeFileSync(path + '.bk', code);
+		fs.writeFileSync(path, newCode);
 
 		console.log('✅ Arquivo salvo em:', path);
 
