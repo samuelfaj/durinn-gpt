@@ -148,7 +148,7 @@ Preencha:
 		}
 
 		if(code.indexOf(`columnNameTranslation`) == -1){
-			const indexOf = findIndexOfNext(code, `class`, `{`);
+			const indexOf = findIndexOfNext(code, `export default class`, `{`);
 			code = code.substring(0, indexOf + 1) + "\n" +  columnNameTranslation + code.substring(indexOf + 1);
 		}
 
@@ -159,7 +159,7 @@ Preencha:
 		}
 
 		if(code.indexOf(`sensitiveColumns`) == -1){
-			const indexOf = findIndexOfNext(code, `class`, `{`);
+			const indexOf = findIndexOfNext(code, `export default class`, `{`);
 			code = code.substring(0, indexOf + 1) +  "\n" + sensitiveColumns + code.substring(indexOf + 1);
 		}
 
@@ -170,7 +170,7 @@ Preencha:
 		}
 
 		if(code.indexOf(`modelNameTranslation`) == -1){
-			const indexOf = findIndexOfNext(code, `class`, `{`);
+			const indexOf = findIndexOfNext(code, `export default class`, `{`);
 			code = code.substring(0, indexOf + 1) +  "\n" + modelNameTranslation + code.substring(indexOf + 1);
 		}
 

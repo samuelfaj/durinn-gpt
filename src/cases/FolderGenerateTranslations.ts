@@ -2,6 +2,20 @@ import GenerateTranslations from "./GenerateTranslations";
 
 const inquirer = require('inquirer');
 
+const { exec } = require('child_process');
+
+function executeShell(shell: string) {
+  return new Promise((resolve, reject) => {
+    exec(shell, (error: any, stdout: string, stderr: string) => {
+      if (error) {
+        reject(`Erro ao executar o script: ${error}`);
+        return;
+      }
+      resolve(`Saída do script: ${stdout}`);
+    });
+  });
+}
+
 export default class FolderGenerateTranslations {
 	static async run(folderPath: string, verbose = false){
         const fs = require('fs');
@@ -11,6 +25,10 @@ export default class FolderGenerateTranslations {
         const backups: string[] = [];
 
         for(const file_name of files){
+            if(files.indexOf(file_name + '.bk') > -1){
+                continue;
+            }
+            
             if(file_name.indexOf('.bk') > -1){
                 continue;
             }
@@ -27,6 +45,7 @@ export default class FolderGenerateTranslations {
             fs.writeFileSync(file + '.bk', originalCode);
             fs.writeFileSync(file, newCode);
 
+            console.log(await executeShell(`npx prettier --write "${file}"  --tab-width 4 --use-tabs --html-whitespace-sensitivity=css || true`));
             console.log('✅ Arquivo salvo em:', file);
         }
 
