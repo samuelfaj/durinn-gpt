@@ -14,7 +14,11 @@ export default class FolderGenerateTranslations {
             if(file_name.indexOf('.bk') > -1){
                 continue;
             }
-            
+
+            if(!/\.[a-z]+$/i.test(file_name)){
+                continue;
+            }
+
             const file = path.resolve(folderPath, file_name);
             const saveToFile = file;
             const originalCode = fs.readFileSync(file).toString();
