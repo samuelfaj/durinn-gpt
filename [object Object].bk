@@ -1,0 +1,72 @@
+import {
+	Table,
+	Column,
+	Model,
+	HasMany,
+	Index,
+	PrimaryKey,
+	AutoIncrement,
+	BeforeFind,
+	BeforeUpdate,
+	BeforeCreate,
+	BeforeDestroy,
+	AfterCreate,
+} from 'sequelize-typescript';
+import {User} from '../../../../src/models';
+import ClassWithVariables from './bases/ClassWithVariables.base';
+import { EnterpriseInterface } from '../interfaces/models/Enterprise.interface';
+
+@Table({ modelName: 'Enterprise' })
+export default class Enterprise extends ClassWithVariables implements EnterpriseInterface {
+	static modelNameTranslation = 'Empresa';
+
+	// Columns
+	@Column name: string;
+	@Column cnpj: string | null;
+	@Column email: string | null;
+	@Column phone: string | null;
+	@Column formatted_address: string | null;
+	@Column latitude: number | null;
+	@Column longitude: number | null;
+	
+	// Configurações
+	@Column oneDevicePerUser: boolean;
+
+	// Relations
+	@HasMany(() => User) Users: User[];
+
+	// Hooks
+	@BeforeUpdate
+	@BeforeCreate
+	static normalizePhone(instance: Enterprise) {
+		if (instance.phone) {
+			instance.phone = this.formatPhone(instance.phone);
+		}
+	}
+
+	@AfterCreate
+	static async createVariables(instance: Enterprise, options) {
+		await instance.addUniqueVariable(
+			`user-fieldstofill`,
+			JSON.stringify([
+				{ field: 'CEP', mask: '00.000-000', required: false },
+				{ field: 'Estado', mask: '', required: false },
+				{ field: 'Cidade', mask: '', required: false },
+				{ field: 'Bairro', mask: '', required: false },
+				{ field: 'Endereço', mask: '', required: false },
+				{ field: 'Complemento', mask: '', required: false },
+			]), {req: options.req, transaction: options.transaction}
+		);
+	}
+
+	// Static Functions
+
+	static formatPhone(phone: string, prefix = '55'): string | null {
+		if (phone) {
+			const formattedPhone = phone.replace(/[^0-9]/g, '');
+			return '+' + (formattedPhone.length == 11 ? prefix + formattedPhone : formattedPhone);
+		}
+
+		return phone;
+	}
+}
