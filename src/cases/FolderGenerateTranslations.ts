@@ -28,7 +28,7 @@ export default class FolderGenerateTranslations {
             if(files.indexOf(file_name + '.bk') > -1){
                 continue;
             }
-            
+
             if(file_name.indexOf('.bk') > -1){
                 continue;
             }
@@ -42,6 +42,8 @@ export default class FolderGenerateTranslations {
             const originalCode = fs.readFileSync(file).toString();
             const newCode = await GenerateTranslations.process(file, file, verbose);
 
+            backups.push(file + '.bk');
+            
             fs.writeFileSync(file + '.bk', originalCode);
             fs.writeFileSync(file, newCode);
 
