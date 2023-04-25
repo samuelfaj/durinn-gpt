@@ -32,7 +32,7 @@ Preencha:
 
 \`\`\`
 	// Essa variável define a tradução do nome do model para português do Brasil.
-	static modelNameTranslation = '<PREENCHA>';
+	static modelNameTranslation = <COMPLETE>;
 	
 	// Essa variável define a tradução do nome de cada coluna do model para português do Brasil.
 	static columnNameTranslation: { [name: string]: string } = {
@@ -174,7 +174,7 @@ Preencha:
 			code = code.substring(0, indexOf + 1) +  "\n" + modelNameTranslation + code.substring(indexOf + 1);
 		}
 
-		return code;
+		return code.split('<COMPLETE>').join("''");
 	}
 
 	static async save(path: string, code: string, newCode: string){

@@ -9,14 +9,17 @@ export default class Api {
 		return this;
 	}
 
-	async send(messages: Messages): Promise<Response>{
+	async send(messages: Messages, model: 'code-davinci-002' | 'gpt-3.5-turbo-0301' = 'code-davinci-002'): Promise<Response>{
 		const self = this;
 		const axios = require('axios');
 		const apiKey = process.env.OPENAI_API_KEY;
 
 		const response = await axios.post(
 			'https://api.openai.com/v1/chat/completions',
-			{ "model": "gpt-3.5-turbo-0301", "messages": self.context.concat(messages) },
+			{ 
+				"model": model, 
+				"messages": self.context.concat(messages) 
+			},
 			{
 				headers: {
 					'Content-Type': 'application/json',
